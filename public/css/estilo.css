@@ -1,16 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: black;
+  font-family: "Inter", sans-serif;
+  background-color: #FFF;
 }
 
 :root {
   --tamanho-header: 80px;
   --tamanho-banner: calc(100vh - var(--tamanho-header) - var(--tamanho-footer) - 2px);
-  --tamanho-simulador: calc(100vh - var(--tamanho-header) - var(--tamanho-footer) - 2px);
   --tamanho-login: calc(100vh - var(--tamanho-header) - var(--tamanho-footer) - 2px);
   --tamanho-footer: 65px;
 }
@@ -22,8 +21,8 @@ body {
 }
 
 .header {
+  background: #F9F9F9;
   height: var(--tamanho-header);
-  border-bottom: 2px solid #32b9cd;
 }
 
 .header .container {
@@ -34,11 +33,11 @@ body {
 
 .header a {
   text-decoration: none;
-  color: #e3b062;
+  color: #000000;
 }
 
 .agora {
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .navbar {
@@ -47,13 +46,12 @@ body {
   align-items: center;
   justify-content: space-between;
   list-style: none;
-  color: #e3b062;
+  color: #000000;
 }
 
-.titulo {
-  color: #32b9cd;
-  width: fit-content;
-  font-weight: 500;
+.logo_navbar {
+  width: 200px;
+  height: auto;
 }
 
 .header h1 {
