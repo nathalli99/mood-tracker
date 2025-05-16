@@ -10,7 +10,7 @@
 
     <script src="./js/sessao.js"></script>
 
-    <link rel="stylesheet" href="./css/estilo.css">
+    <link rel="stylesheet" href="./css/log.css">
     <link rel="icon" href="./assets/icon/logotitle.svg">
     <link rel="preconnect" href="https://fonts.gstatic.com">
 </head>
@@ -18,33 +18,40 @@
 <body>
 
     <div class="login">
-        <div class="alerta_erro">
-            <div class="card_erro" id="cardErro">
-                <span id="mensagem_erro"></span>
+        <div class="left-panel">
+            <div class="alerta_erro">
+                <div class="card_erro" id="cardErro">
+                    <span id="mensagem_erro"></span>
+                </div>
+            </div>
+            <div class="container">
+                <div class="card card-login">
+                    <h2>Login</h2>
+                    <div class="formulario">
+                        <div class="campo">
+                            <span>E-mail:</span>
+                            <input id="email_input" type="text" placeholder="example@gmail.com">
+                        </div>
+                        <div class="campo">
+                            <span>Senha:</span>
+                            <input id="senha_input" type="password" placeholder="********">
+                        </div>
+                        <button class="botao" onclick="entrar()">Entrar</button>
+                    </div>
+
+                    <div class="cadastro-link">
+                        Não possui uma conta? <a href="#">Cadastre-se</a>
+                    </div>
+
+                    <div id="div_aguardar" class="loading-div">
+                        <img src="./assets/circle-loading.gif" id="loading-gif">
+                    </div>
+
+                    <div id="div_erros_login"></div>
+                </div>
             </div>
         </div>
-        <div class="container">
-            <div class="card card-login">
-                <h2>Login</h2>
-                <div class="formulario">
-                    <div class="campo">
-                        <span>E-mail:</span>
-                        <input id="email_input" type="text" placeholder="Login">
-                    </div>
-                    <div class="campo">
-                        <span>Senha:</span>
-                        <input id="senha_input" type="password" placeholder="******">
-                    </div>
-                    <button class="botao" onclick="entrar()">Entrar</button>
-                </div>
-
-                <div id="div_aguardar" class="loading-div">
-                    <img src="./assets/circle-loading.gif" id="loading-gif">
-                </div>
-
-                <div id="div_erros_login"></div>
-            </div>
-        </div>
+        <div class="right-panel"></div>
     </div>
 
 </body>
@@ -62,7 +69,7 @@
 
         if (emailVar == "" || senhaVar == "") {
             cardErro.style.display = "block"
-            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
+            mensagem_erro.innerHTML = "Preencha todos os campos.";
             finalizarAguardar();
             return false;
         }
