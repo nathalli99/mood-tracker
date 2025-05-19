@@ -10,30 +10,27 @@ function autenticar(req, res) {
     } else if (senha == undefined) {
         res.status(400).send("Digite sua senha!");
     } else {
-
         usersModel.autenticar(email, senha)
             .then(
                 function (resultadoAutenticar) {
                     console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
-                    console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`); // transforma JSON em String
+                    console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`);
 
                     if (resultadoAutenticar.length == 1) {
                         console.log(resultadoAutenticar);
-
-                        logModel.buscarlogsPorEmpresa(resultadoAutenticar[0].empresaId)
+                        logModel.buscarLogsPorUser(resultadoAutenticar[0].idUser)
                             .then((resultadologs) => {
                                 if (resultadologs.length > 0) {
                                     res.json({
                                         id: resultadoAutenticar[0].idUser,
                                         email: resultadoAutenticar[0].email,
                                         nome: resultadoAutenticar[0].nome,
-                                        senha: resultadoAutenticar[0].senha,
                                         logs: resultadologs
                                     });
                                 } else {
                                     res.status(204).json({ logs: [] });
                                 }
-                            })
+                            });
                     } else if (resultadoAutenticar.length == 0) {
                         res.status(403).send("Email e/ou senha inválido(s)");
                     } else {
@@ -48,16 +45,13 @@ function autenticar(req, res) {
                 }
             );
     }
-
 }
 
 function cadastrar(req, res) {
-    // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
     var nome = req.body.nomeServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
 
-    // Faça as validações dos valores
     if (nome == undefined) {
         res.status(400).send("Seu nome está undefined!");
     } else if (email == undefined) {
@@ -65,8 +59,6 @@ function cadastrar(req, res) {
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está undefined!");
     } else {
-
-        // Passe os valores como parâmetro e vá para o arquivo usersModel.js
         usersModel.cadastrar(nome, email, senha)
             .then(
                 function (resultado) {
@@ -85,7 +77,63 @@ function cadastrar(req, res) {
     }
 }
 
+function buscarPorEmail(req, res) {
+    var email = req.query.email;
+
+    if (email == undefined) {
+        res.status(400).send("O email está undefined!");
+    } else {
+        usersModel.buscarPorEmail(email)
+            .then((resultado) => {
+                if (resultado.length > 0) {
+                    res.status(200).json(resultado);
+                } else {
+                    res.status(204).send("Nenhum usuário encontrado com este email.");
+                }
+            })
+            .catch((erro) => {
+                console.log(erro);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
+function buscarPorId(req, res) {
+    var id = req.params.id;
+
+    usersModel.buscarPorId(id)
+        .then((resultado) => {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado[0]);
+            } else {
+                res.status(204).send("Nenhum usuário encontrado com este ID.");
+            }
+        })
+        .catch((erro) => {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function listar(req, res) {
+    usersModel.listar()
+        .then((resultado) => {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).send("Nenhum usuário encontrado.");
+            }
+        })
+        .catch((erro) => {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
 module.exports = {
     autenticar,
-    cadastrar
-}
+    cadastrar,
+    buscarPorEmail,
+    buscarPorId,
+    listar
+};
