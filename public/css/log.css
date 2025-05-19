@@ -20,8 +20,6 @@ body, html {
   width: 100vw;
 }
 
-/* Painel Esquerdo */
-
 .painel-esquerdo {
   width: 35%;
   padding: 40px 24px;
@@ -53,8 +51,6 @@ body, html {
   text-decoration: none;
 }
 
-/* Formulário */
-
 .formulario {
   width: 100%;
   max-width: 300px;
@@ -82,26 +78,6 @@ body, html {
   font-size: 14px;
 }
 
-/* Campo com olho */
-
-.campo-senha {
-  position: relative;
-}
-
-.campo-senha input {
-  padding-right: 40px;
-}
-
-.olho {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  cursor: pointer;
-  font-size: 18px;
-  color: #999;
-}
-
-/* Botão */
 
 .botao {
   margin-top: 10px;
@@ -120,8 +96,6 @@ body, html {
   background-color: #C04CA5;
 }
 
-/* Cadastro */
-
 .cadastro-link {
   margin-top: 20px;
   font-size: 13px;
@@ -138,14 +112,10 @@ body, html {
   text-decoration: underline;
 }
 
-/* Painel Direito */
-
 .painel-direito {
   width: 65%;
   background: url('../assets/imgs/log-image.png') no-repeat center center / cover;
 }
-
-/* Mensagens de erro */
 
 .alerta_erro {
   position: absolute;
@@ -165,7 +135,6 @@ body, html {
   box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
 }
 
-/* Responsivo */
 
 @media (max-width: 768px) {
   .login {

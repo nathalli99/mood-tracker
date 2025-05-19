@@ -9,12 +9,14 @@ senha VARCHAR(255) NOT NULL,
 dtCriacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+
 CREATE TABLE emotion (
 idEmotion INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(45) NOT NULL,
 cor VARCHAR(45) NOT NULL,
 descricao VARCHAR(255)
 );
+
 
 CREATE TABLE log (
 idLog INT AUTO_INCREMENT,
@@ -32,6 +34,7 @@ CONSTRAINT fkLogEmotion FOREIGN KEY (fkEmotion) REFERENCES emotion(idEmotion)
 INSERT INTO users (nome, email, senha) VALUES
 ('Nathalli', 'nathalli@email.com', 'Abracadabra9');
 
+
 INSERT INTO emotion VALUES
 (DEFAULT, 'Alegria', '#FFC75F', 'É quando nos sentimos bem, satisfeitos e felizes com nós mesmos ou com o que vivemos.'),
 (DEFAULT, 'Confiança', '#00DA82', 'Quando acreditamos que algo ou alguém é seguro e que não vai nos causar mal.'),
@@ -41,6 +44,7 @@ INSERT INTO emotion VALUES
 (DEFAULT, 'Nojo', '#D65DB1', 'Rejeição ou vontade de evitar algo ou alguém que nos incomoda.'),
 (DEFAULT, 'Raiva', '#FF6F91', 'É quando nos sentimos irritados ou ofendidos, principalmente se achamos que foi de propósito.'),
 (DEFAULT, 'Antecipação', '#F2856D', 'Expectativa que criamos antes de algo acontecer, com base no que sabemos ou já vivemos.');
+
 
 INSERT INTO log (fkUser, fkEmotion, anotacao, intensidade, diaSemana, dtRegistro) VALUES
 (1, 6, 'Tive vontade de evitar algo ou alguém.', 3, 'Terça-feira', '2025-04-01 09:10:00'),
@@ -76,8 +80,8 @@ INSERT INTO log (fkUser, fkEmotion, anotacao, intensidade, diaSemana, dtRegistro
 
 
 SHOW TABLES;
-
-SELECT * FROM users;
+g
+SELECT * FROjM users;
 SELECT * FROM emotion;
 SELECT * FROM log;
 

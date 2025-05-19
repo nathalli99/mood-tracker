@@ -5,55 +5,72 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro - Mood Tracker</title>
 
-  <title>Mood Tracker</title>
-
-  <script src="./js/sessao.js"></script>
-
-  <link rel="stylesheet" href="./css/log.css"/>
-  <link rel="icon" href="./assets/icon/logotitle.svg"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com"/>
+  <script src="./js/sessao.js" defer></script>
+  <link rel="stylesheet" href="./css/log.css" />
+  <link rel="icon" href="./assets/icon/logotitle.svg" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
 </head>
 
-<body onload="listar()">
-
+<body>
   <div class="login">
-    <div class="alerta_erro">
-      <div class="card_erro" id="cardErro">
-        <span id="mensagem_erro"></span>
-      </div>
-    </div>
-    <div class="container">
-      <div class="card card-cadastro">
-        <h2>Cadastro</h2>
-        <div class="formulario">
-          <div class="campo">
-            <span>Nome</span>
-            <input id="nome_input" type="text" placeholder="Seu nome" />
-          </div>
-          <div class="campo">
-            <span>E-mail</span>
-            <input id="email_input" type="text" placeholder="meuemail@provedor.com" />
-          </div>
-          <div class="campo">
-            <span>Senha</span>
-            <input id="senha_input" type="password" placeholder="******" />
-          </div>
-          <div class="campo">
-            <span>Confirmação da Senha</span>
-            <input id="confirmacao_senha_input" type="password" placeholder="******"/>
-          </div>
-          <button class="botao" onclick="cadastrar()">Criar Conta</button>
-        </div>
+    <div class="painel-esquerdo">
+      <a href="index.html" class="voltar-seta">←</a>
 
-        <div id="div_erros_login"></div>
+      <div class="alerta_erro">
+        <div class="card_erro" id="cardErro">
+          <span id="mensagem_erro"></span>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="card card-cadastro">
+          <img class="logo_login" src="./assets/icon/logotitle.svg" alt="Logo Mood Tracker" />
+          <h2>Cadastro</h2>
+
+          <form class="formulario" onsubmit="cadastrar(); return false;">
+            <div class="campo">
+              <label for="nome_input">Nome</label>
+              <input id="nome_input" type="text" placeholder="Seu nome" required />
+            </div>
+
+            <div class="campo">
+              <label for="email_input">E-mail</label>
+              <input id="email_input" type="email" placeholder="seuemail@email.com" required />
+            </div>
+
+            <div class="campo">
+              <label for="senha_input">Senha</label>
+              <input id="senha_input" type="password" placeholder="********" required />
+            </div>
+
+            <div class="campo">
+              <label for="confirmacao_senha_input">Confirmação de senha</label>
+              <div class="campo-senha">
+                <input id="confirmacao_senha_input" type="password" placeholder="********" required />
+              </div>
+            </div>
+
+            <button type="submit" class="botao">Criar Conta</button>
+          </form>
+
+          <div class="cadastro-link">
+            Já possui uma conta? <a href="login.html">Login</a>
+          </div>
+
+          <div id="div_erros_login"></div>
+        </div>
       </div>
     </div>
+
+    <div class="painel-direito"></div>
   </div>
 
 </body>
 
 </html>
+
 
 <script>
 
