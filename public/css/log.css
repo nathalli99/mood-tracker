@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -5,76 +7,111 @@
   font-family: 'Inter', sans-serif;
 }
 
-body {
-  display: flex;
-  height: 100vh;
-  width: 100vw;
-  align-items: center;
-  justify-content: center;
+body, html {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: #fff;
 }
 
 .login {
   display: flex;
-  width: 100vw;
   height: 100vh;
+  width: 100vw;
 }
 
-.left-panel {
-  width: 30%;
+/* Painel Esquerdo */
+
+.painel-esquerdo {
+  width: 35%;
+  padding: 40px 24px;
   background-color: #fff;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  padding: 24px;
+  align-items: center;
+  position: relative;
 }
 
-.left-panel .logo-login img {
-  width: 120px;
+.logo_login {
+  width: 100px;
   margin-bottom: 20px;
 }
 
-.left-panel h2 {
-  text-align: center;
-  margin-bottom: 50px;
-  font-size: 24px;
+.painel-esquerdo h2 {
+  font-size: 22px;
   color: #030229;
+  margin-bottom: 30px;
 }
 
-.right-panel {
-  width: 70%;
-  background: url('../assets/imgs/log-image.png') no-repeat center center / contain;
-  background-size: cover;
+.voltar-seta {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  font-size: 24px;
+  color: #D65DB1;
+  text-decoration: none;
 }
+
+/* Formulário */
 
 .formulario {
   width: 100%;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
 }
 
-.formulario span {
-  font-size: 16px;
-  font-weight: 600;
+.campo {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.campo label {
+  font-size: 14px;
+  font-weight: 500;
   margin-bottom: 5px;
 }
 
-.formulario input {
-  width: 100%;
-  margin-bottom: 15px;
+.campo input {
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
+  outline: none;
+  font-size: 14px;
 }
 
+/* Campo com olho */
+
+.campo-senha {
+  position: relative;
+}
+
+.campo-senha input {
+  padding-right: 40px;
+}
+
+.olho {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #999;
+}
+
+/* Botão */
+
 .botao {
-  width: 100%;
+  margin-top: 10px;
   background-color: #D65DB1;
-  color: #fff;
+  color: white;
   border: none;
-  border-radius: 5px;
-  padding: 10px;
+  border-radius: 8px;
+  padding: 12px;
   font-weight: bold;
+  font-size: 15px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -83,11 +120,13 @@ body {
   background-color: #C04CA5;
 }
 
+/* Cadastro */
+
 .cadastro-link {
-  margin-top: 15px;
+  margin-top: 20px;
   font-size: 13px;
-  text-align: center;
   color: #666;
+  text-align: center;
 }
 
 .cadastro-link a {
@@ -95,188 +134,52 @@ body {
   text-decoration: none;
 }
 
+.cadastro-link a:hover {
+  text-decoration: underline;
+}
+
+/* Painel Direito */
+
+.painel-direito {
+  width: 65%;
+  background: url('../assets/imgs/log-image.png') no-repeat center center / cover;
+}
+
+/* Mensagens de erro */
+
+.alerta_erro {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.card_erro {
+  background-color: #ffe1e1;
+  color: #a10000;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  display: none;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Responsivo */
+
 @media (max-width: 768px) {
   .login {
     flex-direction: column;
   }
 
-  .left-panel,
-  .right-panel {
+  .painel-esquerdo,
+  .painel-direito {
     width: 100%;
     height: 50%;
   }
+
+  .voltar-seta {
+    top: 20px;
+    left: 20px;
+  }
 }
-
-
-
-/* LOGIN */
-
-/*.login {
-  height: var(--tamanho-login);
-  background-image: url('../assets/imgs/log-image.png');
-  background-size: cover;
-}
-
-.login .container {
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-
-.card {
-  width: 50%;
-  background-color: #E5E5E5;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  color: palevioletred;
-  flex-direction: column;
-  height: fit-content;
-  padding: 20px 0;
-}
-
-.card h2 {
-  margin: 0;
-  font-size: 30px;
-}
-
-.formulario {
-  display: flex;
-  height: 90%;
-  width: 80%;
-  justify-content: space-around;
-  flex-direction: column;
-}
-
-.formulario span {
-  font-size: 15px;
-  font-weight: 800;
-}
-
-.formulario input {
-  border: 2px solid #32B9CD;
-  text-align: center;
-  border-radius: 10px;
-  margin: 0;
-}
-
-.formulario select {
-  border: 2px solid #32B9CD;
-  background-color: white;
-  color: gray;
-  height: 36px;
-  text-align: center;
-  border-radius: 10px;
-  margin: 0;
-}
-
-.campo {
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  padding: 5px 0;
-}
-
-.botao {
-  cursor: pointer;
-  font-family: "Inter", sans-serif;
-  border: 0;
-  border-radius: 5px;
-  font-weight: 600;
-  font-size: 18px;
-  color: #fff;
-  background-color: #D65DB1;
-  width: 120px;
-  height: 30px;
-  align-self: center;
-  margin-top: 20px;
-  transition: background-color 0.3s ease;
-}
-
-.botao:hover {
-  background-color: #C04CA5;
-}
-
-.loading-div {
-  width: 50px;
-  display: none;
-}
-
-.loading-div img {
-  height: 50px;
-  width: 50px;
-}
-
-#div_erros_login {
-  display: none
-}
-
-/* FORMULARIO */
-
-/*.alerta_erro {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.card_erro {
-    display: none;
-    background-color: #fff;
-    color: black;
-    width: 230px;
-    position: fixed;
-    border-radius: 4px;
-    border: #ED145B 3px solid;
-    padding: 10px;
-    margin-right: 10%;
-}
-
-.card_erro #mensagem_erro {
-    font-weight: 500;
-    font-size: 20px;
-}
-
-.formulario .tipo_campo {
-    font-size: 20px;
-    font-weight: 600 !important;
-}
-
-.formulario {
-    display: flex;
-    flex-direction: column;
-}
-
-input {
-    margin-bottom: 10px;
-    border: 2px solid #32b9cd;
-    padding: 10px;
-    text-align: center;
-    border-radius: 10px;
-}
-
-.btn {
-    font-family: "Inter", sans-serif;
-    border: 0;
-    border-radius: 5px;
-    font-weight: 600;
-    font-size: 18px;
-    padding: 10px 15px;
-    color: white;
-    background-color: #ED145B;
-    width: 120px;
-    align-self: center;
-    margin-top: 5px;
-}
-
-.loading-div {
-    width: 50px;
-    margin: auto;
-    display: none;
-}
-
-.loading-div img {
-    height: 50px;
-    width: 50px;
-}
-
-*/
