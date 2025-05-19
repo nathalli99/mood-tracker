@@ -1,17 +1,17 @@
-var usuarioModel = require("../models/usuarioModel");
-var aquarioModel = require("../models/aquarioModel");
+var usersModel = require("../models/usersModel");
+var logModel = require("../models/logModel");
 
 function autenticar(req, res) {
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
 
     if (email == undefined) {
-        res.status(400).send("Seu email está undefined!");
+        res.status(400).send("Digite seu e-mail completo!");
     } else if (senha == undefined) {
-        res.status(400).send("Sua senha está indefinida!");
+        res.status(400).send("Digite sua senha!");
     } else {
 
-        usuarioModel.autenticar(email, senha)
+        usersModel.autenticar(email, senha)
             .then(
                 function (resultadoAutenticar) {
                     console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
@@ -20,19 +20,18 @@ function autenticar(req, res) {
                     if (resultadoAutenticar.length == 1) {
                         console.log(resultadoAutenticar);
 
-                        aquarioModel.buscarAquariosPorEmpresa(resultadoAutenticar[0].empresaId)
-                            .then((resultadoAquarios) => {
-                                if (resultadoAquarios.length > 0) {
+                        logModel.buscarlogsPorEmpresa(resultadoAutenticar[0].empresaId)
+                            .then((resultadologs) => {
+                                if (resultadologs.length > 0) {
                                     res.json({
                                         id: resultadoAutenticar[0].id,
-                                        cpf: resultadoAutenticar[0].cpf,
                                         email: resultadoAutenticar[0].email,
                                         nome: resultadoAutenticar[0].nome,
                                         senha: resultadoAutenticar[0].senha,
-                                        aquarios: resultadoAquarios
+                                        logs: resultadologs
                                     });
                                 } else {
-                                    res.status(204).json({ aquarios: [] });
+                                    res.status(204).json({ logs: [] });
                                 }
                             })
                     } else if (resultadoAutenticar.length == 0) {
@@ -55,10 +54,8 @@ function autenticar(req, res) {
 function cadastrar(req, res) {
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
     var nome = req.body.nomeServer;
-    var cpf = req.body.cpfServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
-    var fkEmpresa = req.body.idEmpresaVincularServer;
 
     // Faça as validações dos valores
     if (nome == undefined) {
@@ -73,8 +70,8 @@ function cadastrar(req, res) {
         res.status(400).send("Sua empresa a vincular está undefined!");
     } else {
 
-        // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nome, cpf, email, senha, fkEmpresa)
+        // Passe os valores como parâmetro e vá para o arquivo usersModel.js
+        usersModel.cadastrar(nome, email, senha)
             .then(
                 function (resultado) {
                     res.json(resultado);

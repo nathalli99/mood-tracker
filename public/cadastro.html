@@ -97,14 +97,14 @@
     ) {
       cardErro.style.display = "block";
       mensagem_erro.innerHTML =
-        "(Mensagem de erro para todos os campos em branco)";
+        "Preencha todos os campos.";
 
       finalizarAguardar();
       return false;
     } else if (nomeVar.length <= 1) {
       cardErro.style.display = "block";
       mensagem_erro.innerHTML =
-        "(O nome deve ter mais que um caractere.)";
+        "Digite seu nome.";
 
       finalizarAguardar();
       return false;
@@ -112,7 +112,7 @@
     } else if (!emailVar.includes('@') && !emailVar.includes('.') ) {
       cardErro.style.display = "block";
       mensagem_erro.innerHTML =
-        "(Email inválido! Adicione o @ e ou .)";
+        "Email inválido! Deve incluir @ e .";
 
       finalizarAguardar();
       return false;
@@ -120,7 +120,7 @@
     } else if (senhaVar.length <= 6) {
       cardErro.style.display = "block";
       mensagem_erro.innerHTML =
-        "(Senha fraca! Deve ter mais que 6 caracteres.)";
+        "Sua senha deve ter mais que 6 caracteres.";
 
       finalizarAguardar();
       return false;
@@ -128,7 +128,7 @@
     } else if (senhaVar != confirmacaoSenhaVar) {
       cardErro.style.display = "block";
       mensagem_erro.innerHTML =
-        "(As senhas devem ser iguais.)";
+        "As senhas devem ser iguais.";
 
       finalizarAguardar();
       return false;
