@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>Login - Mood Tracker</title>
 
   <script src="./js/sessao.js" defer></script>
   <link rel="stylesheet" href="./css/log.css">
@@ -26,10 +26,10 @@
 
       <div class="container">
         <div class="card card-login">
-          <img class="logo_login" src="./assets/imgs/logo-log.png" alt="Logo Mood Tracker">
+          <img class="logo_login" src="./assets/icon/logotitle.svg" alt="Logo Mood Tracker">
           <h2>Login</h2>
 
-          <form class="formulario" onsubmit="entrar(); return false;">
+          <form class="formulario" onsubmit="entrar()">
             <div class="campo">
               <label for="email_input">E-mail</label>
               <input id="email_input" type="email" placeholder="example@gmail.com" required>
@@ -42,7 +42,7 @@
               </div>
             </div>
 
-            <button type="submit" class="botao">Entrar</button>
+            <button onclick="entrar()" class="botao">Entrar</button>
           </form>
 
           <div class="cadastro-link">
@@ -61,74 +61,82 @@
 </html>
 
 <script>
+  function entrar() {
+    //aguardar();
 
-    function entrar() {
-        aguardar();
+    event.preventDefault();
 
-        var emailVar = email_input.value;
-        var senhaVar = senha_input.value;
+    var emailVar = email_input.value;
+    var senhaVar = senha_input.value;
 
-        if (emailVar == "" || senhaVar == "") {
-            cardErro.style.display = "block"
-            mensagem_erro.innerHTML = "Preencha todos os campos.";
-            finalizarAguardar();
-            return false;
-        }
-        else {
-            setInterval(sumirMensagem, 5000)
-        }
-
-        console.log("FORM LOGIN: ", emailVar);
-        console.log("FORM SENHA: ", senhaVar);
-
-        fetch("/usuarios/autenticar", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                emailServer: emailVar,
-                senhaServer: senhaVar
-            })
-        }).then(function (resposta) {
-            console.log("Tentando entrar!")
-
-            if (resposta.ok) {
-                console.log(resposta);
-
-                resposta.json().then(json => {
-                    console.log(json);
-                    console.log(JSON.stringify(json));
-                    sessionStorage.EMAIL_USUARIO = json.email;
-                    sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.ID_USUARIO = json.id;
-                    sessionStorage.AQUARIOS = JSON.stringify(json.aquarios)
-
-                    setTimeout(function () {
-                        window.location = "./dashboard/cards.html";
-                    }, 1000); // apenas para exibir o loading
-
-                });
-
-            } else {
-
-                console.log("Houve um erro ao tentar realizar o login!");
-
-                resposta.text().then(texto => {
-                    console.error(texto);
-                    finalizarAguardar(texto);
-                });
-            }
-
-        }).catch(function (erro) {
-            console.log(erro);
-        })
-
-        return false;
+    if (emailVar == "" || senhaVar == "") {
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML = "Preencha todos os campos.";
+      finalizarAguardar();
+      return false;
+    }
+    else {
+      setInterval(sumirMensagem, 5000)
     }
 
-    function sumirMensagem() {
-        cardErro.style.display = "none"
-    }
+    console.log("FORM LOGIN: ", emailVar);
+    console.log("FORM SENHA: ", senhaVar);
+
+    fetch("/users/autenticar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        emailServer: emailVar,
+        senhaServer: senhaVar
+      })
+    }).then(function (resposta) {
+      console.log("Tentando entrar!");
+
+      if (resposta.ok) {
+        console.log(resposta);
+
+        resposta.json().then(json => {
+          console.log(json);
+          console.log(JSON.stringify(json));
+          sessionStorage.EMAIL_USUARIO = json.email;
+          sessionStorage.NOME_USUARIO = json.nome;
+          sessionStorage.ID_USUARIO = json.idUser;
+
+          if (json.logs) {
+            sessionStorage.LOGS_USUARIO = JSON.stringify(json.logs);
+          }
+
+          setTimeout(function () {
+            window.location = "./dashboard/cards.html";
+          }, 1000); // apenas para exibir o loading
+
+        });
+
+      } else {
+        console.log("Houve um erro ao tentar realizar o login!");
+        cardErro.style.display = "block";
+
+        resposta.text().then(texto => {
+          console.error(texto);
+          mensagem_erro.innerHTML = texto || "Erro ao fazer login. Verifique suas credenciais.";
+          finalizarAguardar();
+        });
+      }
+
+    }).catch(function (erro) {
+      console.log(erro);
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML = "Erro de conexão com o servidor.";
+      finalizarAguardar();
+    });
+
+    return false;
+  }
+
+  function sumirMensagem() {
+    cardErro.style.display = "none";
+  }
 
 </script>

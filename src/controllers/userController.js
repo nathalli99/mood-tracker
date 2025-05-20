@@ -1,4 +1,4 @@
-var usersModel = require("../models/usersModel");
+var userModel = require("../models/userModel");
 var logModel = require("../models/logModel");
 
 function autenticar(req, res) {
@@ -10,7 +10,7 @@ function autenticar(req, res) {
     } else if (senha == undefined) {
         res.status(400).send("Digite sua senha!");
     } else {
-        usersModel.autenticar(email, senha)
+        userModel.autenticar(email, senha)
             .then(
                 function (resultadoAutenticar) {
                     console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
@@ -18,19 +18,22 @@ function autenticar(req, res) {
 
                     if (resultadoAutenticar.length == 1) {
                         console.log(resultadoAutenticar);
+
                         logModel.buscarLogsPorUser(resultadoAutenticar[0].idUser)
-                            .then((resultadologs) => {
-                                if (resultadologs.length > 0) {
+                            .then((resultadoLogs) => {
+                                //if (resultadoLogs.length >= 0) {
                                     res.json({
-                                        id: resultadoAutenticar[0].idUser,
+                                        idUser: resultadoAutenticar[0].idUser,
                                         email: resultadoAutenticar[0].email,
                                         nome: resultadoAutenticar[0].nome,
-                                        logs: resultadologs
+                                        senha: resultadoAutenticar[0].senha,
+                                        logs: resultadoLogs || [],
                                     });
-                                } else {
-                                    res.status(204).json({ logs: [] });
-                                }
+                                //} else {
+                                    //res.status(204).json({ logs: [] });
+                                //}
                             });
+
                     } else if (resultadoAutenticar.length == 0) {
                         res.status(403).send("Email e/ou senha inválido(s)");
                     } else {
@@ -59,7 +62,7 @@ function cadastrar(req, res) {
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está undefined!");
     } else {
-        usersModel.cadastrar(nome, email, senha)
+        userModel.cadastrar(nome, email, senha)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -77,63 +80,7 @@ function cadastrar(req, res) {
     }
 }
 
-function buscarPorEmail(req, res) {
-    var email = req.query.email;
-
-    if (email == undefined) {
-        res.status(400).send("O email está undefined!");
-    } else {
-        usersModel.buscarPorEmail(email)
-            .then((resultado) => {
-                if (resultado.length > 0) {
-                    res.status(200).json(resultado);
-                } else {
-                    res.status(204).send("Nenhum usuário encontrado com este email.");
-                }
-            })
-            .catch((erro) => {
-                console.log(erro);
-                res.status(500).json(erro.sqlMessage);
-            });
-    }
-}
-
-function buscarPorId(req, res) {
-    var id = req.params.id;
-
-    usersModel.buscarPorId(id)
-        .then((resultado) => {
-            if (resultado.length > 0) {
-                res.status(200).json(resultado[0]);
-            } else {
-                res.status(204).send("Nenhum usuário encontrado com este ID.");
-            }
-        })
-        .catch((erro) => {
-            console.log(erro);
-            res.status(500).json(erro.sqlMessage);
-        });
-}
-
-function listar(req, res) {
-    usersModel.listar()
-        .then((resultado) => {
-            if (resultado.length > 0) {
-                res.status(200).json(resultado);
-            } else {
-                res.status(204).send("Nenhum usuário encontrado.");
-            }
-        })
-        .catch((erro) => {
-            console.log(erro);
-            res.status(500).json(erro.sqlMessage);
-        });
-}
-
 module.exports = {
     autenticar,
-    cadastrar,
-    buscarPorEmail,
-    buscarPorId,
-    listar
+    cadastrar
 };

@@ -13,9 +13,9 @@ var HOST_APP = process.env.APP_HOST;
 var app = express();
 
 var indexRouter = require("./src/routes/index");
-var usersRouter = require("./src/routes/usersRoutes");
-var logRouter = require("./src/routes/logRoutes");
-var emotionRouter = require("./src/routes/emotionRoutes");
+var userRouter = require("./src/routes/users");
+var logRouter = require("./src/routes/logs");
+var emotionRouter = require("./src/routes/emotions");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -24,9 +24,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
-app.use("/log", logRouter);
-app.use("/emotion", emotionRouter);
+app.use("/users", userRouter);
+app.use("/logs", logRouter);
+app.use("/emotions", emotionRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

@@ -29,7 +29,7 @@
           <img class="logo_login" src="./assets/icon/logotitle.svg" alt="Logo Mood Tracker" />
           <h2>Cadastro</h2>
 
-          <form class="formulario" onsubmit="cadastrar(); return false;">
+          <form class="formulario" onsubmit="cadastrar()">
             <div class="campo">
               <label for="nome_input">Nome</label>
               <input id="nome_input" type="text" placeholder="Seu nome" required />
@@ -73,12 +73,12 @@
 
 
 <script>
-
   // Array para armazenar empresas cadastradas para validação de código de ativação 
-  let cadastro = [];
+  // let listaEmpresasCadastradas = [];
 
   function cadastrar() {
     // aguardar();
+
 
     //Recupere o valor da nova input pelo nome do id
     // Agora vá para o método fetch logo abaixo
@@ -86,7 +86,6 @@
     var emailVar = email_input.value;
     var senhaVar = senha_input.value;
     var confirmacaoSenhaVar = confirmacao_senha_input.value;
-    var idEmpresaVincular
 
     // Verificando se há algum campo em branco
     if (
@@ -96,58 +95,51 @@
       confirmacaoSenhaVar == ""
     ) {
       cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "Preencha todos os campos.";
+      mensagem_erro.innerHTML = "Preencha todos os campos.";
 
       finalizarAguardar();
       return false;
-    } else if (nomeVar.length <= 1) {
+    } /* else if (nomeVar.length <= 1) {
       cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "Digite seu nome.";
+      mensagem_erro.innerHTML = "Digite seu nome.";
 
       finalizarAguardar();
       return false;
 
-    } else if (!emailVar.includes('@') && !emailVar.includes('.') ) {
+    } else if (!emailVar.includes('@') || !emailVar.includes('.')) {
       cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "Email inválido! Deve incluir @ e .";
+      mensagem_erro.innerHTML = "Email inválido! Deve incluir @ e .";
 
       finalizarAguardar();
       return false;
 
     } else if (senhaVar.length <= 6) {
       cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "Sua senha deve ter mais que 6 caracteres.";
+      mensagem_erro.innerHTML = "Sua senha deve ter mais que 6 caracteres.";
 
       finalizarAguardar();
       return false;
 
     } else if (senhaVar != confirmacaoSenhaVar) {
       cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "As senhas devem ser iguais.";
+      mensagem_erro.innerHTML = "As senhas devem ser iguais.";
 
       finalizarAguardar();
       return false;
-    } else {
+    } */ else {
       setInterval(sumirMensagem, 5000);
     }
 
     // Enviando o valor da nova input
-    fetch("/usuarios/cadastrar", {
+    fetch("/users/cadastrar", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
- 
         nomeServer: nomeVar,
         emailServer: emailVar,
         senhaServer: senhaVar,
-        idEmpresaVincularServer: idEmpresaVincular
       }),
     })
       .then(function (resposta) {
@@ -161,7 +153,7 @@
 
           setTimeout(() => {
             window.location = "login.html";
-          }, "2000");
+          }, 2000);
 
           limparFormulario();
           finalizarAguardar();
@@ -177,27 +169,8 @@
     return false;
   }
 
-  // Listando empresas cadastradas 
-  function listar() {
-    fetch("/empresas/listar", {
-      method: "GET",
-    })
-      .then(function (resposta) {
-        resposta.json().then((empresas) => {
-          empresas.forEach((empresa) => {
-            cadastro.push(empresa);
-
-            console.log("cadastro")
-            console.log(cadastro[0].codigo_ativacao)
-          });
-        });
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-      });
-  }
-
   function sumirMensagem() {
     cardErro.style.display = "none";
   }
+
 </script>
