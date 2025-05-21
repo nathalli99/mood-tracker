@@ -96,6 +96,7 @@ body {
 
 .banner {
   color: white;
+  margin-bottom: 140px;
 }
 
 .banner .container {
@@ -154,8 +155,8 @@ body {
 }
 
 .banner-image {
-  width: 55%;
-  height: 500px;
+  width: 60%;
+  height: 810px;
   position: relative;
   overflow: hidden;
   border-radius: 0 0 0 250px;
@@ -165,30 +166,52 @@ body {
   background-position: center;
 }
 
-/* .banner-image::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-} */
-
 /* DESTAQUES */
 
 .destaque {
-  background-color: #F9F9F9;
   display: flex;
+  margin-bottom: 60px;
+  background: url(../assets/imgs/destaque-azul.png) no-repeat right top / contain;
+  background-position: right center;
 }
 
 .destaque .container {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   height: 600px;
   width: 100%;
   margin-top: 100px;
+  background: url(../assets/imgs/destaque-laranja.png) no-repeat  top / contain;
+  background-size: 178px;
+  background-position: 50px 100px;
+}
+
+.destaque .container .boxes {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 30px 0;
+}
+
+.destaque-text {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-left: 80px;
+  gap: 40px;
+  margin-bottom: 80px;
+}
+
+.destaque-text h4 {
+  font-size: 37px;
+  width: 250px;
+}
+
+.destaque-text p {
+  text-align: left;
+  font-size: 16px;
+  width: 300px;
 }
 
 .boxes {
@@ -252,7 +275,6 @@ margin: 20px 0px;
   bottom: 10%;
 }
 
-
 .box1 img {
   background-color: #DACFED;
 }
@@ -272,21 +294,39 @@ margin: 20px 0px;
   background-color: #CCE6F5;
 }
 
-.destaque .container .boxes {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 30px 0;
-}
-
-.destaque p {
-  text-align: center;
-}
-
 .box {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+/* SOBRE */
+
+.sobre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.sobre .container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+.sobre-text h4 {
+  display: flex;
+  width: 200px;
+  font-size: 24px;
+  margin-bottom: 30px ;
+}
+
+.sobre-text p {
+  display: flex;
+  width: 400px;
+  font-size: 18px;
 }
 
 /* FOOTER */

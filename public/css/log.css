@@ -31,15 +31,23 @@ body, html {
   position: relative;
 }
 
-.logo_login {
-  width: 100px;
-  margin-bottom: 20px;
+.card-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-login img {
+  width: 150px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 .painel-esquerdo h2 {
-  font-size: 22px;
+  font-size: 24px;
   color: #030229;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
+  font-weight: 700;
 }
 
 .voltar-seta {
@@ -53,7 +61,7 @@ body, html {
 }
 
 .formulario {
-  max-width: 300px;
+  width: 500px;
   display: flex;
   flex-direction: column;
 }
@@ -76,6 +84,7 @@ body, html {
   border: 1px solid #ccc;
   outline: none;
   font-size: 14px;
+  width: 100%;
 }
 
 
