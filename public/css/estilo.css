@@ -16,9 +16,8 @@ body {
 }
 
 :root {
-  --tamanho-header: 80px;
+  --tamanho-header: 90px;
   --tamanho-footer: 40px;
-  --tamanho-login: calc(100vh - var(--tamanho-header) - var(--tamanho-footer) - 2px);
 }
 
 .container {
@@ -34,6 +33,7 @@ body {
 }
 
 .header .container {
+  display: flex;
   justify-content: space-between;
   align-items: center;
   height: 100%;
@@ -96,7 +96,7 @@ body {
 
 .banner {
   color: white;
-  margin-bottom: 140px;
+  margin-bottom: 100px;
 }
 
 .banner .container {
@@ -115,9 +115,8 @@ body {
 
 .banner-text {
   width: 45%;
-  padding: 5%;
+  padding: 4%;
   z-index: 2;
-
 }
 
 .banner-text h1 {
@@ -145,7 +144,7 @@ body {
   text-decoration: none;
   padding: 12px 30px;
   border-radius: 30px;
-  font-weight: 500;
+  font-weight: 500px;
   transition: all 0.3s ease;
 }
 
@@ -156,7 +155,7 @@ body {
 
 .banner-image {
   width: 60%;
-  height: 810px;
+  height: 575px;
   position: relative;
   overflow: hidden;
   border-radius: 0 0 0 250px;
@@ -173,6 +172,7 @@ body {
   margin-bottom: 60px;
   background: url(../assets/imgs/destaque-azul.png) no-repeat right top / contain;
   background-position: right center;
+  background-size: 1150px;
 }
 
 .destaque .container {
@@ -220,7 +220,6 @@ body {
   gap: 20px;
   position: relative;
   height: 100%;
-  max-width: 800px;
 }
 
 .box {
@@ -230,14 +229,14 @@ body {
   background-color: #F2F2F2;
   border-radius: 30px;
   padding: 10px;
-  width: 220px;
-  height: 278px;
+  width: 250px;
+  height: 308px;
   position: absolute;
   box-shadow: 0px 0px 12px rgb(128, 128, 128, 0.2);
 }
 
 .box h4 {
-margin: 20px 0px;
+margin: 18px 0px;
 
 }
 
@@ -250,29 +249,28 @@ margin: 20px 0px;
 .box img {
   padding: 10px;
   border-radius: 10px;
-  width: 60px;
+  width: 70px;
   margin-top: 20px;
 }
 
 .box1 {
-  top: 18px;
-  left: 18%;
+  bottom: 65%;
+  left: 25%;
 }
 
 .box2 {
+  bottom: 75%;
   right: 20%;
-  bottom: 60%;
 }
 
 .box3 {
-  bottom: 0;
-  left: 18%;
+  bottom: 5%;
+  left: 25%;
 }
 
 .box4 {
-  bottom: 18px;
+  bottom: 15%;
   right: 20%;
-  bottom: 10%;
 }
 
 .box1 img {
@@ -288,8 +286,8 @@ margin: 20px 0px;
 }
 
 .box4 img {
-  width: 50px;
-  height: 50px;
+  width: 75px;
+  height: 75px;
   padding: 15px;
   background-color: #CCE6F5;
 }
