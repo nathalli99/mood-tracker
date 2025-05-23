@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AquaTech | Dashboards</title>
 
-    
+
     <link rel="stylesheet" href="./../css/dashboards.css">
     <link rel="stylesheet" href="./../css/estilo.css" />
     <script src="../js/sessao.js"></script>
@@ -29,52 +29,171 @@
 <!-- <body onload=" atualizarFeed()"> -->
 
 <body>
-
-    <div class="janela">
-        <div class="header-left">
-            <h1>AquaTech</h1>
-
-            <div class="hello">
-                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>AquaTech</h1>
+                <div class="user-welcome">
+                    Olá, <span id="b_usuario">usuário</span>!
+                </div>
             </div>
 
-            <div class="btn-nav-white">
-                <a href="./cards.html">
-                    <h3>Aquários</h3>
-                </a>
+            <nav class="sidebar-nav">
+                <div class="nav-item">
+                    <a href="./cards.html" class="nav-link">
+                        <i class="fas fa-fish"></i>
+                        Aquários
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i class="fas fa-chart-line"></i>
+                        Gráficos
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="./mural.html" class="nav-link">
+                        <i class="fas fa-bullhorn"></i>
+                        Mural de Avisos
+                    </a>
+                </div>
+            </nav>
+
+            <button class="logout-btn" onclick="limparSessao()">
+                <i class="fas fa-sign-out-alt"></i> Sair
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <h1 class="dashboard-title">Dashboard</h1>
+                <div class="date-filters">
+                    <select class="date-filter">
+                        <option>10-06-2021</option>
+                    </select>
+                    <select class="date-filter">
+                        <option>10-10-2021</option>
+                    </select>
+                </div>
+            </header>
+
+            <!-- Stats Cards -->
+            <section class="stats-grid">
+                <div class="stat-card blue">
+                    <div class="stat-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="stat-value">178+</div>
+                    <div class="stat-label">Medições Salvas</div>
+                </div>
+                <div class="stat-card yellow">
+                    <div class="stat-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="stat-value">20+</div>
+                    <div class="stat-label">Dados em Estoque</div>
+                </div>
+                <div class="stat-card red">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="stat-value">190+</div>
+                    <div class="stat-label">Relatórios Gerados</div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="stat-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="stat-value">12+</div>
+                    <div class="stat-label">Aplicações Ativas</div>
+                </div>
+            </section>
+            
+            <!-- Content Grid -->
+            <div class="content-grid">
+                <!-- Graphs Section -->
+                <section class="graph-section">
+                    <div id="alerta"></div>
+                    <div id="graficos">
+                        <!-- Gráficos serão inseridos aqui via JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Analytics Section -->
+                <section class="analytics-section">
+                    <h2 class="section-title">Analytics</h2>
+                    <div class="analytics-chart">
+                        80%
+                    </div>
+                    <div style="text-align: center; color: #7f8c8d; margin-bottom: 1rem;">
+                        Transações
+                    </div>
+                    <div class="analytics-legend">
+                        <div class="legend-item">
+                            <div class="legend-color blue"></div>
+                            <span>Vendas</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color yellow"></div>
+                            <span>Distribuição</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color red"></div>
+                            <span>Retorno</span>
+                        </div>
+                    </div>
+                </section>
             </div>
 
-            <div class="btn-nav">
-
-                <h3>Gráficos</h3>
-
-            </div>
-
-            <div class="btn-nav-white">
-                <a href="./mural.html">
-                    <h3>Mural de Avisos</h3>
-                </a>
-            </div>
-
-            <div class="btn-logout" onclick="limparSessao()">
-                <h3>Sair</h3>
-            </div>
-
-        </div>
-
-        <div class="dash">
-            <div id="alerta">
-            </div>
-
-            <div class="btns-dash" id="btnAquario">
-                <!-- O gráfico é chamado de acordo com o id (fk_aquario) do banco  -->
-            </div>
-            <div id="graficos">
-            </div>
-        </div>
+            <!-- Table Section -->
+            <section class="table-section">
+                <h2 class="section-title">Últimos Registros</h2>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Tracking no</th>
+                                <th>Nome do Sensor</th>
+                                <th>Temperatura</th>
+                                <th>Umidade</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#876364</td>
+                                <td>Sensor Temperatura</td>
+                                <td>25°C</td>
+                                <td>60%</td>
+                                <td><span class="status-badge">Ativo</span></td>
+                            </tr>
+                            <tr>
+                                <td>#876368</td>
+                                <td>Sensor Umidade</td>
+                                <td>23°C</td>
+                                <td>65%</td>
+                                <td><span class="status-badge">Ativo</span></td>
+                            </tr>
+                            <tr>
+                                <td>#876412</td>
+                                <td>Sensor Principal</td>
+                                <td>24°C</td>
+                                <td>58%</td>
+                                <td><span class="status-badge">Ativo</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
     </div>
 
-
+    <!-- Scripts originais mantidos -->
+    <script src="../js/sessao.js"></script>
+    <script src="./../js/alerta.js"></script>
 </body>
 
 </html>
