@@ -11,13 +11,11 @@
           color: #333;
         }
 
-        /* Dashboard container */
         .dashboard-container {
           display: flex;
           min-height: 100vh;
         }
 
-        /* Sidebar */
         .sidebar {
           width: 280px;
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -104,7 +102,6 @@
           transform: translateY(-2px);
         }
 
-        /* Main content */
         .main-content {
           flex: 1;
           margin-left: 280px;
@@ -112,7 +109,6 @@
           background-color: #f8f9fa;
         }
 
-        /* Header */
         .dashboard-header {
           background: white;
           padding: 1.5rem 2rem;
@@ -144,7 +140,6 @@
           font-size: 0.9rem;
         }
 
-        /* Stats cards */
         .stats-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -221,7 +216,6 @@
           font-weight: 500;
         }
 
-        /* Content grid */
         .content-grid {
           display: grid;
           grid-template-columns: 2fr 1fr;
@@ -229,7 +223,6 @@
           margin-bottom: 2rem;
         }
 
-        /* Aquarium buttons */
         .aquarium-section {
           background: white;
           padding: 1.5rem;
@@ -274,7 +267,6 @@
           color: white;
         }
 
-        /* Graph section */
         .graph-section {
           background: white;
           padding: 2rem;
@@ -309,7 +301,6 @@
           font-size: 0.9rem;
         }
 
-        /* Analytics section */
         .analytics-section {
           background: white;
           padding: 2rem;
@@ -364,7 +355,6 @@
           background: #e74c3c;
         }
 
-        /* Table section */
         .table-section {
           background: white;
           padding: 2rem;
@@ -408,7 +398,6 @@
           color: #27ae60;
         }
 
-        /* Utility classes */
         .display-none {
           display: none;
         }
@@ -421,7 +410,6 @@
           display: flex;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
           .sidebar {
             width: 100%;
