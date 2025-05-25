@@ -27,32 +27,38 @@ body {
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
 .sidebar-header {
-  padding: 0 32px 32px 32px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 32px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .sidebar-header img {
-  width: 100px;
-  margin-bottom: 8px;
+  width: 220px;
+  margin-bottom: 32px;
 }
 
 .user-welcome {
-  font-size: 14px;
-  opacity: 0.8;
-}
-
-.user-welcome span {
-  font-weight: 600;
-}
-
-.sidebar-nav {
-  padding: 0 16px;
+  font-size: 22px;
+  font-weight: 500;
+  opacity: 0.85;
+  text-align: center;
+  margin-bottom: 24px;
 }
 
 .nav-item {
-  margin-bottom: 8px;
+  margin-left: 25px;
+  margin-bottom: 12px;
 }
 
 .nav-link {
@@ -67,18 +73,9 @@ body {
 }
 
 .nav-link:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.3);
   transform: translateX(5px);
-}
-
-.nav-link.active {
-  background: rgba(255, 255, 255, 0.2);
-  font-weight: 600;
-}
-
-.nav-link i {
-  margin-right: 12px;
-  width: 20px;
+  color: #C04CA5;
 }
 
 .logout-btn {
@@ -122,7 +119,7 @@ body {
 .dashboard-title {
   font-size: 29px;
   font-weight: 700;
-  color: #2c3e50;
+  color: #2C3E50;
 }
 
 .date-filters {
@@ -147,6 +144,9 @@ body {
 }
 
 .stat-card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
   background: #FFFFFF;
   padding: 24px;
   border-radius: 12px;
@@ -171,37 +171,59 @@ body {
 }
 
 .stat-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
   margin-bottom: 16px;
   font-size: 24px;
+  background: #eee;
 }
 
 .stat-card.blue .stat-icon {
   background: #3498db;
+  color: white;
 }
 
 .stat-card.yellow .stat-icon {
   background: #f1c40f;
+  color: white;
 }
 
 .stat-card.red .stat-icon {
   background: #e74c3c;
+  color: white;
 }
 
-.stat-card.purple .stat-icon {
-  background: #9b59b6;
+.stat-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stat-text {
+  display: flex;
+  flex-direction: column;
 }
 
 .stat-value {
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 700;
   color: #2c3e50;
-  margin-bottom: 8px;
+}
+
+.stat-days {
+  font-size: 14px;
+  font-weight: 500;
+  color: #7f8c8d;
 }
 
 .stat-label {
@@ -337,13 +359,13 @@ body {
 }
 
 .legend-color.blue {
-  background: #3498db;
+  background: #3498DB;
 }
 
 .legend-color.yellow {
-  background: #f1c40f;
+  background: #F1C40F;
 }
 
 .legend-color.red {
-  background: #e74c3c;
+  background: #E74C3C;
 }

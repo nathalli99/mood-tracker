@@ -18,12 +18,20 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
+    
+        <link href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css" 
+        rel="stylesheet">
 
     <!-- scripts do Chart.js - 2022-1 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!--FONT AWESOME-->
     <script src="https://kit.fontawesome.com/9f7414eb10.js" crossorigin="anonymous"></script>
+
+    <!--ICONIFY-->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+    
 </head>
 
 <!-- <body onload=" atualizarFeed()"> -->
@@ -33,7 +41,9 @@
 
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="./assets/imgs/logo.png" alt="">
+                <div class="logo-wrapper">
+                    <img src="../assets/imgs/logo.png" alt="">
+                </div>
                 <div class="user-welcome">
                     Olá, <span id="b_usuario">usuário</span>!
                 </div>
@@ -42,15 +52,13 @@
             <nav class="sidebar-nav">
                 <div class="nav-item">
                     <a href="./dashboard.html" class="nav-link">
-                        <i class="fas fa-fish"></i>
+                        <i class="fi fi-rr-file-chart-line"></i>
                         Dashboard
                     </a>
                 </div>
             </nav>
 
-            <button class="logout-btn" onclick="limparSessao()">
-                <i class="fas fa-sign-out-alt"></i> Sair
-            </button>
+            <button class="logout-btn" onclick="limparSessao()"> Sair </button>
         </aside>
 
         <main class="main-content">
@@ -69,30 +77,53 @@
 
             <section class="stats-grid">
                 <div class="stat-card blue">
-                    <div class="stat-icon">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <div class="stat-value">109+</div>
+                    <div class="stat-content">
+                        <div class="stat-left">
+                            <div class="stat-icon">
+                               <iconify-icon icon="fluent:calendar-24-regular"></iconify-icon>
+                            </div>
+                            <div class="stat-text">
+                                <div class="stat-value">Mês</div>
+                                <div class="stat-days">25 dias</div>
+                            </div>
+                        </div>
                     <div class="stat-label">Dias de Marcação</div>
+                    </div>
                 </div>
+
                 <div class="stat-card yellow">
-                    <div class="stat-icon">
-                        <i class="fas fa-database"></i>
+                    <div class="stat-content">
+                        <div class="stat-left">
+                            <div class="stat-icon">
+                                <iconify-icon icon="fluent:add-24-regular"></iconify-icon>
+                            </div>
+                            <div class="stat-text">
+                                <div class="stat-value">Tristeza</div>
+                                <div class="stat-days">10 dias</div>
+                            </div>
+                        </div>
+                        <div class="stat-label">Emoção mais presente</div>
                     </div>
-                    <div class="stat-value">Tristeza</div>
-                    <div class="stat-days">40 dias</div>
-                    <div class="stat-label">Emoção mais presente</div>
                 </div>
+
+
                 <div class="stat-card red">
-                    <div class="stat-icon">
-                        <i class="fas fa-chart-bar"></i>
+                    <div class="stat-content">
+                        <div class="stat-left">
+                            <div class="stat-icon">
+                                <iconify-icon icon="fluent:subtract-24-regular"></iconify-icon>
+                            </div>
+                            <div class="stat-text">
+                                <div class="stat-value">Nojo</div>
+                                <div class="stat-days">3 dias</div>
+                            </div>
+                        </div>
+                        <div class="stat-label">Emoção menos presente</div>
                     </div>
-                    <div class="stat-value">Nojo</div>
-                    <div class="stat-days">5 dias</div>
-                    <div class="stat-label">Emoção menos presente</div>
                 </div>
+
             </section>
-            
+
             <div class="content-grid">
 
                 <section class="graph-section">
@@ -103,7 +134,7 @@
                 </section>
 
                 <section class="analytics-section">
-                    <h2 class="section-title">Donut</h2>
+                    <h2 class="section-title"></h2>
                     <div class="analytics-chart">
                         lorem
                     </div>
