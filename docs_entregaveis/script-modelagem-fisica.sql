@@ -20,7 +20,6 @@ CREATE TABLE log (
   idLog INT AUTO_INCREMENT,
   fkUser INT,
   fkEmotion INT,
-  anotacao VARCHAR(255),
   intensidade TINYINT NOT NULL CHECK (intensidade BETWEEN 1 AND 5),
   dtRegistro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT pkLog PRIMARY KEY (idLog, fkUser, fkEmotion),
@@ -41,37 +40,37 @@ INSERT INTO emotion VALUES
 (DEFAULT, 'Raiva', '#FF6F91', 'É quando nos sentimos irritados ou ofendidos, principalmente se achamos que foi de propósito.'),
 (DEFAULT, 'Antecipação', '#F2856D', 'Expectativa que criamos antes de algo acontecer, com base no que sabemos ou já vivemos.');
 
-INSERT INTO log (fkUser, fkEmotion, anotacao, intensidade, dtRegistro) VALUES
-(1, 6, 'Tive vontade de evitar algo ou alguém.', 3, '2025-04-01 09:10:00'),
-(1, 7, 'Fiquei irritado com uma situação no trabalho.', 4, '2025-04-02 10:15:00'),
-(1, 3, 'Fiquei com medo de dar algo errado.', 4, '2025-04-03 08:45:00'),
-(1, 3, 'Ansiedade com o futuro.', 5, '2025-04-04 09:00:00'),
-(1, 8, 'Fiquei com expectativa sobre um evento.', 3, '2025-04-05 11:00:00'),
-(1, 8, 'Pensei no que pode acontecer.', 2, '2025-04-06 14:25:00'),
-(1, 5, 'Senti saudade e tristeza.', 4, '2025-04-07 13:00:00'),
-(1, 6, 'Evitei falar com alguém.', 3, '2025-04-08 16:00:00'),
-(1, 1, 'Me senti bem comigo mesmo.', 4, '2025-04-09 18:30:00'),
-(1, 2, 'Confiei no meu julgamento.', 4, '2025-04-10 19:40:00'),
-(1, 4, 'Fui surpreendido por uma notícia.', 3, '2025-04-11 08:20:00'),
-(1, 5, 'Fiquei desanimado com o clima.', 2, '2025-04-12 09:00:00'),
-(1, 3, 'Tive receio de como seria meu dia.', 3, '2025-04-13 07:55:00'),
-(1, 1, 'Me senti muito alegre pela manhã.', 5, '2025-04-14 09:05:00'),
-(1, 2, 'Confiança nas minhas escolhas.', 5, '2025-04-15 11:10:00'),
-(1, 4, 'Surpresa com um convite inesperado.', 4, '2025-04-16 12:00:00'),
-(1, 5, 'Senti tristeza por estar sozinho.', 4, '2025-04-17 13:15:00'),
-(1, 6, 'Desconforto com o ambiente.', 3, '2025-04-18 14:10:00'),
-(1, 7, 'Raiva por um atraso injusto.', 5, '2025-04-19 15:30:00'),
-(1, 8, 'Antecipei possíveis problemas.', 3, '2025-04-20 16:00:00'),
-(1, 1, 'Dia produtivo e feliz.', 5, '2025-04-21 09:30:00'),
-(1, 2, 'Senti segurança no que fiz.', 4, '2025-04-22 10:00:00'),
-(1, 4, 'Surpresa agradável ao reencontrar alguém.', 4, '2025-04-23 11:45:00'),
-(1, 5, 'Lembranças me deixaram triste.', 3, '2025-04-24 12:20:00'),
-(1, 6, 'Evitei uma conversa difícil.', 4, '2025-04-25 14:00:00'),
-(1, 7, 'Raiva ao perder tempo no trânsito.', 4, '2025-04-26 15:10:00'),
-(1, 8, 'Previ possíveis desafios.', 3, '2025-04-27 16:20:00'),
-(1, 1, 'Felicidade por um elogio recebido.', 5, '2025-04-28 17:30:00'),
-(1, 2, 'Confiando nas pessoas ao meu redor.', 4, '2025-04-29 18:40:00'),
-(1, 3, 'Preocupação com uma conversa importante.', 4, '2025-04-30 19:00:00');
+INSERT INTO log (fkUser, fkEmotion, intensidade, dtRegistro) VALUES
+(1, 6, 3, '2025-04-01 09:10:00'),
+(1, 7, 4, '2025-04-02 10:15:00'),
+(1, 3, 4, '2025-04-03 08:45:00'),
+(1, 3, 5, '2025-04-04 09:00:00'),
+(1, 8, 3, '2025-04-05 11:00:00'),
+(1, 8, 2, '2025-04-06 14:25:00'),
+(1, 5, 4, '2025-04-07 13:00:00'),
+(1, 6, 3, '2025-04-08 16:00:00'),
+(1, 1, 4, '2025-04-09 18:30:00'),
+(1, 2, 4, '2025-04-10 19:40:00'),
+(1, 4, 3, '2025-04-11 08:20:00'),
+(1, 5, 2, '2025-04-12 09:00:00'),
+(1, 3, 3, '2025-04-13 07:55:00'),
+(1, 1, 5, '2025-04-14 09:05:00'),
+(1, 2, 5, '2025-04-15 11:10:00'),
+(1, 4, 4, '2025-04-16 12:00:00'),
+(1, 5, 4, '2025-04-17 13:15:00'),
+(1, 6, 3, '2025-04-18 14:10:00'),
+(1, 7, 5, '2025-04-19 15:30:00'),
+(1, 8, 3, '2025-04-20 16:00:00'),
+(1, 1, 5, '2025-04-21 09:30:00'),
+(1, 2, 4, '2025-04-22 10:00:00'),
+(1, 4, 4, '2025-04-23 11:45:00'),
+(1, 5, 3, '2025-04-24 12:20:00'),
+(1, 6, 4, '2025-04-25 14:00:00'),
+(1, 7, 4, '2025-04-26 15:10:00'),
+(1, 8, 3, '2025-04-27 16:20:00'),
+(1, 1, 5, '2025-04-28 17:30:00'),
+(1, 2, 4, '2025-04-29 18:40:00'),
+(1, 3, 4, '2025-04-30 19:00:00');
 
 SHOW TABLES;
 
@@ -81,8 +80,7 @@ SELECT * FROM log;
 
 SELECT u.nome AS Usuário,
     l.dtRegistro AS Dataa,
-	e.nome AS Emoção,
-    l.anotacao AS Anotação
+	e.nome AS Emoção
 FROM log AS l
 JOIN users AS u
 ON l.fkUser = u.idUser
@@ -94,7 +92,6 @@ SELECT
     l.idLog,
     u.nome AS usuario,
     e.nome AS emocao,
-    l.anotacao,
     l.intensidade,
     l.dtRegistro,
     CASE WEEKDAY(l.dtRegistro)
