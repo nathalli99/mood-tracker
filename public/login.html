@@ -73,8 +73,15 @@
       cardErro.style.display = "block";
       mensagem_erro.innerHTML = "Preencha todos os campos.";
       finalizarAguardar();
+      return false;   
+    } else if (!emailVar.includes('@') || !emailVar.includes('.')) {
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML = "Email inválido!";
+
+      finalizarAguardar();
       return false;
-    }
+
+    } 
     else {
       setInterval(sumirMensagem, 5000)
     }
