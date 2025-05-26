@@ -72,9 +72,21 @@ function buscarLogDeHoje(req, res) {
         });
 }
 
+function graficoBarras(req, res) {
+    var idUser = req.params.idUser;
+    logModel.intensidadeMediaPorEmocao(idUser).then(resposta => res.json(resposta));
+}
+
+function graficoPizza(req, res) {
+    var idUser = req.params.idUser;
+    logModel.frequenciaMensalPorEmocao(idUser).then(resposta => res.json(resposta));
+}
+
 module.exports = {
     cadastrar,
     buscarLogsPorUser,
     buscarUltimosLogs,
-    buscarLogDeHoje
+    buscarLogDeHoje,
+    graficoBarras,
+    graficoPizza
 };

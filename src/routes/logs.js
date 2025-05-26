@@ -19,4 +19,7 @@ router.get("/hoje/:idUser", function (req, res) {
     logController.buscarLogDeHoje(req, res);
 });
 
+router.get("/grafico-barras/:idUser", logController.graficoBarras);
+router.get("/grafico-pizza/:idUser", logController.graficoPizza);
+
 module.exports = router;

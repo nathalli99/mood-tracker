@@ -59,10 +59,42 @@ function buscarLogDeHoje(idUser) {
     return database.executar(instrucaoSql);
 }
 
+function intensidadeMediaPorEmocao(idUser) {
+    const sql = `
+        SELECT 
+            e.nome AS emocao,
+            ROUND(AVG(l.intensidade), 2) AS media_intensidade
+        FROM log l
+        JOIN emotion e ON l.fkEmotion = e.idEmotion
+        WHERE l.fkUser = ${idUser}
+        GROUP BY e.nome
+        ORDER BY media_intensidade DESC;
+    `;
+    return database.executar(sql);
+}
+
+function frequenciaMensalPorEmocao(idUser) {
+    const sql = `
+        SELECT 
+            e.nome AS emocao,
+            COUNT(*) AS total
+        FROM log l
+        JOIN emotion e ON l.fkEmotion = e.idEmotion
+        WHERE l.fkUser = ${idUser}
+        AND MONTH(l.dtRegistro) = MONTH(NOW())
+        AND YEAR(l.dtRegistro) = YEAR(NOW())
+        GROUP BY e.nome;
+    `;
+    return database.executar(sql);
+}
+
 module.exports = {
     cadastrar,
     buscarLogsPorEmotion,
     buscarLogsPorUser,
     buscarUltimosLogs,
-    buscarLogDeHoje
+    buscarLogDeHoje,
+    intensidadeMediaPorEmocao,
+    frequenciaMensalPorEmocao
+
 };
