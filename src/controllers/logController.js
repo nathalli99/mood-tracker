@@ -4,10 +4,9 @@ function cadastrar(req, res) {
     var fkUser = req.body.fkUser;
     var fkEmotion = req.body.fkEmotion;
     var intensidade = req.body.intensidade;
-    var anotacao = req.body.anotacao;
 
     if (!fkUser || !fkEmotion || !intensidade) {
-        res.status(400).send("Os campos fkUser, fkEmotion e intensidade são obrigatórios!");
+        res.status(400).send("Selecione a emoção e a intensidade para continuar!");
         return;
     }
 
@@ -46,7 +45,7 @@ function buscarUltimosLogs(req, res) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado);
             } else {
-                res.status(204).send("Nenhum log encontrado.");
+                res.status(204).send("Nenhum resultado encontrado.");
             }
         })
         .catch((erro) => {
@@ -63,23 +62,27 @@ function buscarLogDeHoje(req, res) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado[0]);
             } else {
-                res.status(204).send("Nenhum log registrado hoje.");
+                res.status(204).send("Nenhuma emoção registrada hoje.");
             }
         })
         .catch((erro) => {
-            console.log("Erro ao buscar log de hoje:", erro.sqlMessage);
+            console.log("Erro ao buscar a marcação de hoje:", erro.sqlMessage);
             res.status(500).json(erro.sqlMessage);
         });
 }
 
 function graficoBarras(req, res) {
     var idUser = req.params.idUser;
-    logModel.intensidadeMediaPorEmocao(idUser).then(resposta => res.json(resposta));
+
+    logModel.intensidadeMediaPorEmocao(idUser)
+        .then(resposta => res.json(resposta));
 }
 
 function graficoPizza(req, res) {
     var idUser = req.params.idUser;
-    logModel.frequenciaMensalPorEmocao(idUser).then(resposta => res.json(resposta));
+
+    logModel.frequenciaMensalPorEmocao(idUser)
+        .then(resposta => res.json(resposta));
 }
 
 module.exports = {
