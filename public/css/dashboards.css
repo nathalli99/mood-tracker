@@ -64,6 +64,7 @@ body {
 .nav-link {
   display: flex;
   align-items: center;
+  gap: 10px;
   padding: 12px 16px;
   color: #030229;
   text-decoration: none;
@@ -73,7 +74,6 @@ body {
 }
 
 .nav-link:hover {
-  background: rgba(255, 255, 255, 0.3);
   transform: translateX(5px);
   color: #C04CA5;
 }
@@ -117,7 +117,7 @@ body {
 }
 
 .dashboard-title {
-  font-size: 29px;
+  font-size: 27px;
   font-weight: 700;
   color: #2C3E50;
 }
@@ -145,13 +145,15 @@ body {
 
 .stat-card {
   display: flex;
-  flex-direction: column;
-  position: relative;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
   background: #FFFFFF;
-  padding: 24px;
+  padding: 16px 20px;
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
+
 }
 
 .stat-card:hover {
@@ -177,9 +179,10 @@ body {
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
   font-size: 24px;
   background: #eee;
+  flex-shrink: 0;
 }
 
 .stat-card.blue .stat-icon {
@@ -199,14 +202,14 @@ body {
 
 .stat-content {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .stat-left {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .stat-text {
@@ -215,21 +218,23 @@ body {
 }
 
 .stat-value {
-  font-size: 24px;
+  margin-top: -5px;
+  font-size: 18px;
   font-weight: 700;
   color: #2c3e50;
+  line-height: 1.2;
 }
 
 .stat-days {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 600;
   color: #7f8c8d;
 }
 
 .stat-label {
   color: #7f8c8d;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .content-grid {
