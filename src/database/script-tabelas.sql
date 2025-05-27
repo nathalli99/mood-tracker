@@ -92,7 +92,7 @@ SELECT
     ROUND(AVG(l.intensidade), 2) AS media_intensidade
 FROM log l
 JOIN emotion e ON l.fkEmotion = e.idEmotion
-WHERE l.fkUser = ${idUser}
+WHERE l.fkUser = 1
 GROUP BY e.nome
 ORDER BY media_intensidade DESC;
 
@@ -101,7 +101,7 @@ SELECT
     COUNT(*) AS total
 FROM log l
 JOIN emotion e ON l.fkEmotion = e.idEmotion
-WHERE l.fkUser = ${idUser}
+WHERE l.fkUser = 1
   AND MONTH(l.dtRegistro) = MONTH(NOW())
   AND YEAR(l.dtRegistro) = YEAR(NOW())
 GROUP BY e.nome;
