@@ -10,7 +10,7 @@ function cadastrar(req, res) {
         return;
     }
 
-    logModel.cadastrar(fkUser, fkEmotion, intensidade, anotacao)
+    logModel.cadastrar(fkUser, fkEmotion, intensidade)
         .then((resultado) => {
             res.status(201).json(resultado);
         })

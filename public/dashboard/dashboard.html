@@ -143,7 +143,7 @@
         </main>
     </div>
 
-    <dialog open="" id="openModal" class="mood-modal">
+    <dialog id="emotionModal" class="mood-modal">
         <div class="emotion-modal">
             <div class="title-modal">
                 <h2>Como você está se sentindo hoje?</h2>
@@ -210,6 +210,7 @@
         obterDadosGraficoBarras(idUser);
         obterDadosGraficoPizza(idUser);
         carregarEmocoes();
+        configurarModal();
     };
 
     // verificar registro diário, caso não tenha vai mostrar o modal para marcação
@@ -219,42 +220,94 @@
                 if (res.status == 204) { // 204 = quando não tem nenhum conteúdo
                     mostrarModal();
                 } else if (res.status == 200) {
-                    console.log(`Usuário já marcou emoção hoje.`);
+                    console.log("Usuário já marcou emoção hoje.");
                 }
             })
             .catch((error) => {
-                console.error(`Erro ao verificar marcação de hoje: `, error);
+                console.error("Erro ao verificar marcação de hoje: ", error);
             });
     }
 
     function carregarEmocoes() {
-        fetch(`/emotions/listar`)
+        fetch("/emotions/listar")
             .then((res) => res.json())
             .then((emotions) => {
-                const container = document.getElementById(`emotionsButtons`);
+                const container = document.getElementById("emotionsButtons");
                 emotions.forEach((emotions) => {
-                    const button = document.createElement(`button`);
-                    button.type = `button`;
-                    button.className = `buttons-emotions`;
+                    const button = document.createElement("button");
+                    button.type = "button";
+                    button.className = "buttons-emotions";
                     button.dataset.emotionId = emotion.idEmotion;
                     button.textContent = emotion.nome;
                     button.style.backgroundColor = emotion.cor; // cor de cada emoção
                     button.title = emotion.descricao; // hover de descrição da emoção
-                    button.addEventListener(`click`, () => {
-                        document.querySelectorAll(`buttons-emotions`).forEach((btn) => {
-                            btn.classList.remove(`selected`);
+                    button.addEventListener("click", () => {
+                        document.querySelectorAll("buttons-emotions").forEach((btn) => {
+                            btn.classList.remove("selected");
                         });
-                        button.classList.add(`selected`);
-                        document.getElementById(`selectedEmotion`).value = emotion.idEmotion;
+                        button.classList.add("selected");
+                        document.getElementById("selectedEmotion").value = emotion.idEmotion;
                     });
                     container.appendChild(button);
                 });
             }) 
             .catch((error) => {
-                console.error(`Erro ao carregar emoções: `, error)
+                console.error("Erro ao carregar emoções: ", error)
             });
     }
 
+    function configurarModal(){
+        const modal = getElementById("emotionModal");
+        const form = getElementById("formEmotions");
+
+        // receber o submit do forms
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            registrarEmocao();
+        });
+    }
+
+    // identifica e registra qual usuário que está recebendo as informações 
+    function registrarEmocao(){
+        const formData = new FormData(document.getElementById("formEmotions"));
+        const dataEmotions = {
+            fkUser:parseInt(idUser),
+            fkEmotion:parseInt(formData.get("emotion")),
+            intensidade:parseInt(formData.get("intensity"))
+        };
+
+        fetch("/logs/cadastrar", {
+            method:"POST",
+            headers:{
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(dataEmotions),
+        })
+        .then((res) => {
+            if(res.ok){
+                alert("Marcação de emoção concluída!");
+                fecharModal();
+                atualizarGraficoBarras(idUser);
+                atualizarGraficoPizza(idUser);
+            } else {
+                throw new Error("Erro ao registrar emoção!");
+            }
+        })
+        .catch((error) => {
+            console.error("Erro ao registrar emoção: ", error);
+            alert("Erro ao registrar emoção. Tente novamente!");
+        });
+    }
+
+    function mostrarModal(){
+        const modal = getElementById("emotionModal");
+        modal.show();
+    }
+
+    function fecharModal(){
+        const modal = getElementById("emotionModal");
+        modal.close();
+    }
 
     function obterDadosGraficoBarras(idUser) {
         fetch(`/logs/grafico-barras/${idUser}`)
