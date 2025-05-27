@@ -233,7 +233,7 @@
             .then((res) => res.json())
             .then((emotions) => {
                 const container = document.getElementById("emotionsButtons");
-                emotions.forEach((emotions) => {
+                emotions.forEach((emotion) => {
                     const button = document.createElement("button");
                     button.type = "button";
                     button.className = "buttons-emotions";
@@ -273,7 +273,7 @@
         const dataEmotions = {
             fkUser:parseInt(idUser),
             fkEmotion:parseInt(formData.get("emotion")),
-            intensidade:parseInt(formData.get("intensity"))
+            intensidade:parseInt(formData.get("intensidade"))
         };
 
         fetch("/logs/cadastrar", {

@@ -32,12 +32,12 @@ INSERT INTO users (nome, email, senha) VALUES
 
 INSERT INTO emotion VALUES
 (DEFAULT, 'Alegria', '#FFC75F', 'É quando nos sentimos bem, satisfeitos e felizes com nós mesmos ou com o que vivemos.'),
-(DEFAULT, 'Confiança', '#00DA82', 'Quando acreditamos que algo ou alguém é seguro e que não vai nos causar mal.'),
-(DEFAULT, 'Medo', '#008F7A', 'Sensação de insegurança ou receio diante de algo que pode nos machucar.'),
-(DEFAULT, 'Surpresa', '#0081CF', 'Reação que temos quando algo inesperado acontece.'),
 (DEFAULT, 'Tristeza', '#845EC2', 'Sensação de desânimo ou perda. Pode ser causada por algo ruim ou por uma falta.'),
+(DEFAULT, 'Confiança', '#00DA82', 'Quando acreditamos que algo ou alguém é seguro e que não vai nos causar mal.'),
 (DEFAULT, 'Nojo', '#D65DB1', 'Rejeição ou vontade de evitar algo ou alguém que nos incomoda.'),
+(DEFAULT, 'Medo', '#008F7A', 'Sensação de insegurança ou receio diante de algo que pode nos machucar.'),
 (DEFAULT, 'Raiva', '#FF6F91', 'É quando nos sentimos irritados ou ofendidos, principalmente se achamos que foi de propósito.'),
+(DEFAULT, 'Surpresa', '#0081CF', 'Reação que temos quando algo inesperado acontece.'),
 (DEFAULT, 'Antecipação', '#F2856D', 'Expectativa que criamos antes de algo acontecer, com base no que sabemos ou já vivemos.');
 
 INSERT INTO log (fkUser, fkEmotion, intensidade, dtRegistro) VALUES

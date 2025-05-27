@@ -1,9 +1,9 @@
 var database = require("../database/config");
 
-function cadastrar(fkUser, fkEmotion, intensidade, anotacao) {
+function cadastrar(fkUser, fkEmotion, intensidade) {
     var instrucaoSql = `
-        INSERT INTO log (fkUser, fkEmotion, intensidade, anotacao, dtRegistro) 
-        VALUES (${fkUser}, ${fkEmotion}, ${intensidade}, '${anotacao || ""}', NOW());
+        INSERT INTO log (fkUser, fkEmotion, intensidade, dtRegistro) 
+        VALUES (${fkUser}, ${fkEmotion}, ${intensidade}, NOW());
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
