@@ -73,8 +73,6 @@
 
 
 <script>
-  // Array para armazenar empresas cadastradas para validação de código de ativação 
-  // let listaEmpresasCadastradas = [];
 
   function cadastrar() {
     // aguardar();
@@ -99,7 +97,7 @@
 
       finalizarAguardar();
       return false;
-    }  else if (nomeVar.length <= 1) {
+    }  else if (nomeVar.length <= 2) {
       cardErro.style.display = "block";
       mensagem_erro.innerHTML = "Digite seu nome.";
 

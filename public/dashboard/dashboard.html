@@ -138,39 +138,60 @@
                 </section>
             </div>
 
+            <div id="mensagem_erro"></div>
+
         </main>
     </div>
 
-    <dialog open="">
-        <section class="emotion-modal">
-            <select>
-                <option value="1"></option>
-            </select>
-            <div id="alegria">
-                <p>Alegria</p>
+    <dialog open="" id="openModal" class="mood-modal">
+        <div class="emotion-modal">
+            <div class="title-modal">
+                <h2>Como você está se sentindo hoje?</h2>
             </div>
-            <div id="tristeza">
-                <p>Tristeza</p>
-            </div>
-            <div id="confianca">
-                <p>Confiança</p>
-            </div>
-            <div id="nojo">
-                <p>Nojo</p>
-            </div>
-            <div id="medo">
-                <p>Medo</p>
-            </div>
-            <div id="raiva">
-                <p>Raiva</p>
-            </div>
-            <div id="surpresa">
-                <p>Surpresa</p>
-            </div>
-            <div id="antecipacao">
-                <p>Antecipação</p>
-            </div>
-        </section>
+            <form id="formEmotions" class="form-emotions">
+                <div class="emotions-selection">
+                    <div id="emotionsButtons" class="emotions-buttons">
+                        <!-- botões serão carregados dinamicamente aqui-->
+                    </div>
+                    <input type="hidden" id="selectedEmotion" name="emotion" required>
+                </div>
+
+                <div class="intensity-selection">
+                    <label>Selecione a intensidade:</label>
+                    <div class="radio_container">
+                        <div class="radio_option">
+                            <label for="intensidade1">1</label>
+                            <input type="radio" id="intensidade1" name="intensidade" value="1" required>
+                            <label for="intensidade1">Muito fraca</label>
+                        </div>
+                        <div class="radio_option">
+                            <label for="intensidade2">2</label>
+                            <input type="radio" id="intensidade2" name="intensidade" value="2" required>
+                            <label for="intensidade2">Fraca</label>
+                        </div>
+                        <div class="radio_option">
+                            <label for="intensidade3">3</label>
+                            <input type="radio" id="intensidade3" name="intensidade" value="3" required>
+                            <label for="intensidade3">Moderada</label>
+                        </div>
+                        <div class="radio_option">
+                            <label for="intensidade4">4</label>
+                            <input type="radio" id="intensidade4" name="intensidade" value="4" required>
+                            <label for="intensidade4">Forte</label>
+                        </div>
+                        <div class="radio_option">
+                            <label for="intensidade5">5</label>
+                            <input type="radio" id="intensidade5" name="intensidade" value="5" required>
+                            <label for="intensidade5">Muito forte</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="button-emotions">
+                    <button type="submit" class="submit-emotions">Salvar</button>
+                </div>
+        </div>
+        </form>
+        </div>
     </dialog>
 
 </body>
@@ -178,8 +199,6 @@
 </html>
 
 <script>
-
-
     b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
     const idUser = sessionStorage.ID_USUARIO;
 
@@ -187,9 +206,55 @@
     let graficoPizza;
 
     window.onload = () => {
+        verificarRegistroDiario(idUser);
         obterDadosGraficoBarras(idUser);
         obterDadosGraficoPizza(idUser);
+        carregarEmocoes();
     };
+
+    // verificar registro diário, caso não tenha vai mostrar o modal para marcação
+    function verificarRegistroDiario() {
+        fetch(`/logs/hoje/${idUser}`)
+            .then((res) => {
+                if (res.status == 204) { // 204 = quando não tem nenhum conteúdo
+                    mostrarModal();
+                } else if (res.status == 200) {
+                    console.log(`Usuário já marcou emoção hoje.`);
+                }
+            })
+            .catch((error) => {
+                console.error(`Erro ao verificar marcação de hoje: `, error);
+            });
+    }
+
+    function carregarEmocoes() {
+        fetch(`/emotions/listar`)
+            .then((res) => res.json())
+            .then((emotions) => {
+                const container = document.getElementById(`emotionsButtons`);
+                emotions.forEach((emotions) => {
+                    const button = document.createElement(`button`);
+                    button.type = `button`;
+                    button.className = `buttons-emotions`;
+                    button.dataset.emotionId = emotion.idEmotion;
+                    button.textContent = emotion.nome;
+                    button.style.backgroundColor = emotion.cor; // cor de cada emoção
+                    button.title = emotion.descricao; // hover de descrição da emoção
+                    button.addEventListener(`click`, () => {
+                        document.querySelectorAll(`buttons-emotions`).forEach((btn) => {
+                            btn.classList.remove(`selected`);
+                        });
+                        button.classList.add(`selected`);
+                        document.getElementById(`selectedEmotion`).value = emotion.idEmotion;
+                    });
+                    container.appendChild(button);
+                });
+            }) 
+            .catch((error) => {
+                console.error(`Erro ao carregar emoções: `, error)
+            });
+    }
+
 
     function obterDadosGraficoBarras(idUser) {
         fetch(`/logs/grafico-barras/${idUser}`)
