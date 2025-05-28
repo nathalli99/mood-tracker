@@ -195,7 +195,6 @@
     </dialog>
 
 </body>
-
 </html>
 
 <script>
@@ -207,25 +206,51 @@
 
     window.onload = () => {
         verificarRegistroDiario(idUser);
-        obterDadosGraficoBarras(idUser);
-        obterDadosGraficoPizza(idUser);
         carregarEmocoes();
         configurarModal();
+        obterDadosGraficoBarras(idUser);
+        obterDadosGraficoPizza(idUser);
     };
 
-    // verificar registro diário, caso não tenha vai mostrar o modal para marcação
-    function verificarRegistroDiario() {
-        fetch(`/logs/hoje/${idUser}`)
-            .then((res) => {
-                if (res.status == 204) { // 204 = quando não tem nenhum conteúdo
-                    mostrarModal();
-                } else if (res.status == 200) {
-                    console.log("Usuário já marcou emoção hoje.");
-                }
-            })
-            .catch((error) => {
-                console.error("Erro ao verificar marcação de hoje: ", error);
-            });
+    function mostrarModal() {
+        const modal = document.getElementById("emotionModal");
+        modal.showModal();
+    }
+
+    function fecharModal() {
+        const modal = document.getElementById("emotionModal");
+        modal.close();
+    }
+
+    function configurarModal() {
+        const modal = document.getElementById("emotionModal");
+        const form = document.getElementById("formEmotions");
+
+        // receber o submit do forms
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            registrarEmocao();
+        });
+
+        // bloqueia ESC diretamente no keydown
+        modal.addEventListener('keydown', (e) => {
+            if (e.key == 'Escape' || e.keyCode == 27) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                return false;
+            }
+        });
+
+        // evita clique fora do modal
+        modal.addEventListener('click', (e) => {
+            const form = modal.querySelector('form');
+            if (!form.contains(e.target)) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        });
     }
 
     function carregarEmocoes() {
@@ -250,63 +275,59 @@
                     });
                     container.appendChild(button);
                 });
-            }) 
+            })
             .catch((error) => {
                 console.error("Erro ao carregar emoções: ", error)
             });
     }
 
-    function configurarModal(){
-        const modal = document.getElementById("emotionModal");
-        const form = document.getElementById("formEmotions");
 
-        // receber o submit do forms
-        form.addEventListener("submit", (e) => {
-            e.preventDefault();
-            registrarEmocao();
-        });
+    // verificar registro diário, caso não tenha vai mostrar o modal para marcação
+    function verificarRegistroDiario() {
+        fetch(`/logs/hoje/${idUser}`)
+            .then((res) => {
+                if (res.status == 204) { // 204 = quando não tem nenhum conteúdo
+                    mostrarModal();
+                } else if (res.status == 200) {
+                    console.log("Usuário já marcou emoção hoje.");
+                }
+            })
+            .catch((error) => {
+                console.error("Erro ao verificar marcação de hoje: ", error);
+            });
     }
 
+
     // identifica e registra qual usuário que está recebendo as informações 
-    function registrarEmocao(){
+    function registrarEmocao() {
         const formData = new FormData(document.getElementById("formEmotions"));
         const dataEmotions = {
-            fkUser:parseInt(idUser),
-            fkEmotion:parseInt(formData.get("emotion")),
-            intensidade:parseInt(formData.get("intensidade"))
+            fkUser: parseInt(idUser),
+            fkEmotion: parseInt(formData.get("emotion")),
+            intensidade: parseInt(formData.get("intensidade"))
         };
 
         fetch("/logs/cadastrar", {
-            method:"POST",
-            headers:{
+            method: "POST",
+            headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(dataEmotions),
         })
-        .then((res) => {
-            if(res.ok){
-                alert("Marcação de emoção concluída!");
-                fecharModal();
-                atualizarGraficoBarras(idUser);
-                atualizarGraficoPizza(idUser);
-            } else {
-                throw new Error("Erro ao registrar emoção!");
-            }
-        })
-        .catch((error) => {
-            console.error("Erro ao registrar emoção: ", error);
-            alert("Erro ao registrar emoção. Tente novamente!");
-        });
-    }
-
-    function mostrarModal(){
-        const modal = document.getElementById("emotionModal");
-        modal.showModal();
-    }
-
-    function fecharModal(){
-        const modal = document.getElementById("emotionModal");
-        modal.close();
+            .then((res) => {
+                if (res.ok) {
+                    alert("Marcação de emoção concluída!");
+                    fecharModal();
+                    atualizarGraficoBarras(idUser);
+                    atualizarGraficoPizza(idUser);
+                } else {
+                    throw new Error("Erro ao registrar emoção!");
+                }
+            })
+            .catch((error) => {
+                console.error("Erro ao registrar emoção: ", error);
+                alert("Erro ao registrar emoção. Tente novamente!");
+            });
     }
 
     function obterDadosGraficoBarras(idUser) {
