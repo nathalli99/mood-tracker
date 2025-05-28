@@ -125,13 +125,13 @@
 
             <div class="content-grid">
                 <section class="graph-section">
-                    <h3 class="tituloGraficos">Intensidade Média por Emoção</h3>
+                    <h3 class="tituloGraficos">Intensidade Média das Emoções</h3>
                     <div class="graph">
                         <canvas id="graficoBarrasCanvas"></canvas>
                     </div>
                 </section>
                 <section class="graph-section">
-                    <h3 class="tituloGraficos">lorem</h3>
+                    <h3 class="tituloGraficos">Panorama Emocional</h3>
                     <div class="graph">
                         <canvas id="graficoPizzaCanvas"></canvas>
                     </div>
@@ -146,8 +146,9 @@
     <dialog id="emotionModal" class="mood-modal">
         <div class="emotion-modal">
             <div class="title-modal">
-                <h2>Como você está se sentindo hoje?</h2>
+                <h2>Qual emoção marcou o seu dia?</h2>
             </div>
+            <label>Escolha a emoção que melhor representa o seu dia:</label>
             <form id="formEmotions" class="form-emotions">
                 <div class="emotions-selection">
                     <div id="emotionsButtons" class="emotions-buttons">
@@ -157,7 +158,7 @@
                 </div>
 
                 <div class="intensity-selection">
-                    <label>Selecione a intensidade:</label>
+                    <label>Com que intensidade você sentiu essa emoção?</label>
                     <div class="radio_container">
                         <div class="radio_option">
                             <label for="intensidade1">1</label>
