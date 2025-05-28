@@ -78,6 +78,7 @@ SELECT * FROM users;
 SELECT * FROM emotion;
 SELECT * FROM log;
 
+
 SELECT u.nome AS Usuário,
     l.dtRegistro AS Dataa,
 	e.nome AS Emoção
