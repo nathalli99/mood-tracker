@@ -112,12 +112,23 @@
                 </section>
                 <section class="graph-section">
                     <h3 class="tituloGraficos">Panorama Emocional</h3>
-                    <div class="graph">
-                        <canvas id="graficoDonutCanvas"></canvas>
+                    <div class="donut-grid">
+                        <div class="donut-item">
+                            <canvas id="graficoDonutAlegriaTristeza"></canvas>
+                        </div>
+                        <div class="donut-item">
+                            <canvas id="graficoDonutConfiancaNojo"></canvas>
+                        </div>
+                        <div class="donut-item">
+                            <canvas id="graficoDonutMedoRaiva"></canvas>
+                        </div>
+                        <div class="donut-item">
+                            <canvas id="graficoDonutSurpresaAntecipacao"></canvas>
+                        </div>
                     </div>
                 </section>
-            </div>
 
+            </div>
             <div id="mensagem_erro"></div>
 
         </main>
@@ -184,14 +195,17 @@
     const idUser = sessionStorage.ID_USUARIO;
 
     let graficoBarras;
-    let graficoDonut;
+    let graficoDonutAlegriaTristeza;
+    let graficoDonutConfiancaNojo;
+    let graficoDonutMedoRaiva;
+    let graficoDonutSurpresaAntecipacao;
 
     window.onload = () => {
         verificarRegistroDiario(idUser);
         carregarEmocoes();
         configurarModal();
         obterDadosGraficoBarras(idUser);
-        obterDadosGraficoDonut(idUser);
+        obterDadosGraficosDonut(idUser);
     };
 
     function mostrarModal() {
@@ -269,8 +283,6 @@
             });
     }
 
-
-
     // verificar registro diário, caso não tenha vai mostrar o modal para marcação
     function verificarRegistroDiario() {
         fetch(`/logs/hoje/${idUser}`)
@@ -285,7 +297,6 @@
                 console.error("Erro ao verificar marcação de hoje: ", error);
             });
     }
-
 
     // identifica e registra qual usuário que está recebendo as informações 
     function registrarEmocao() {
@@ -376,154 +387,66 @@
         graficoBarras = new Chart(ctx, config);
     }
 
-
     function atualizarGraficoBarras(idUser) {
         obterDadosGraficoBarras(idUser);
     }
 
-    function obterDadosGraficoDonut(idUser) {
+    function obterDadosGraficosDonut(idUser) {
         fetch(`/logs/grafico-donut/${idUser}`)
             .then(res => res.json())
-            .then(dados => plotarGraficoDonut(dados));
+            .then(dados => {
+                plotarGraficoDonutAlegriaTristeza(dados);
+                plotarGraficoDonutConfiancaNojo(dados);
+                plotarGraficoDonutMedoRaiva(dados);
+                plotarGraficoDonutSurpresaAntecipacao(dados);
+            });
     }
 
     function plotarGraficoDonutAlegriaTristeza(dados) {
-        const listaCores = [
-            { emocao: "Alegria", cor: "#FFC75F" },
-            { emocao: "Tristeza", cor: "#845EC2" },
-        ];
-
-        const labels = [];
-        const valores = [];
-        const cores = [];
-
-        for (let i = 0; i < dados.length; i++) {
-            labels.push(dados[i].emocao);
-            valores.push(dados[i].total);
-
-            for (let j = 0; j < listaCores.length; j++) {
-                if (listaCores[j].emocao === dados[i].emocao) {
-                    cores.push(listaCores[j].cor);
-                    break;
-                }
-            }
-        }
-
-        const config = {
-            type: 'doughnut',
-            data: {
-                labels,
-                datasets: [
-                    {
-                        data: valores,
-                        backgroundColor: cores,
-                        borderWidth: 1,
-                    },
-                ],
-            },
-            options: {
-                responsive: true,
-            },
-        };
-
-        const ctx = document.getElementById("graficoDonutCanvas").getContext("2d");
-        if (graficoDonut) graficoDonut.destroy();
-        graficoDonut = new Chart(ctx, config);
+        const ctx = document.getElementById("graficoDonutAlegriaTristeza").getContext("2d");
+        const dadosFiltrados = 
+            dados.filter(d => d.emocao === "Alegria" || d.emocao === "Tristeza");
+        criarGraficoDonut(ctx, dadosFiltrados, graficoDonutAlegriaTristeza);
+        graficoDonutAlegriaTristeza = ctx.chart;
     }
 
     function plotarGraficoDonutConfiancaNojo(dados) {
-        const listaCores = [
-            { emocao: "Confiança", cor: "#00DA82" },
-            { emocao: "Nojo", cor: "#D65DB1" },
-        ];
-
-        const labels = [];
-        const valores = [];
-        const cores = [];
-
-        for (let i = 0; i < dados.length; i++) {
-            labels.push(dados[i].emocao);
-            valores.push(dados[i].total);
-
-            for (let j = 0; j < listaCores.length; j++) {
-                if (listaCores[j].emocao === dados[i].emocao) {
-                    cores.push(listaCores[j].cor);
-                    break;
-                }
-            }
-        }
-
-        const config = {
-            type: 'doughnut',
-            data: {
-                labels,
-                datasets: [
-                    {
-                        data: valores,
-                        backgroundColor: cores,
-                        borderWidth: 1,
-                    },
-                ],
-            },
-            options: {
-                responsive: true,
-            },
-        };
-
-        const ctx = document.getElementById("graficoDonutCanvas").getContext("2d");
-        if (graficoDonut) graficoDonut.destroy();
-        graficoDonut = new Chart(ctx, config);
+        const ctx = document.getElementById("graficoDonutConfiancaNojo").getContext("2d");
+        const dadosFiltrados = 
+            dados.filter(d => d.emocao === "Confiança" || d.emocao === "Nojo");
+        criarGraficoDonut(ctx, dadosFiltrados, graficoDonutConfiancaNojo);
+        graficoDonutConfiancaNojo = ctx.chart;
     }
 
     function plotarGraficoDonutMedoRaiva(dados) {
-        const listaCores = [
-            { emocao: "Medo", cor: "#008F7A" },
-            { emocao: "Raiva", cor: "#FF6F91" },
-        ];
-
-        const labels = [];
-        const valores = [];
-        const cores = [];
-
-        for (let i = 0; i < dados.length; i++) {
-            labels.push(dados[i].emocao);
-            valores.push(dados[i].total);
-
-            for (let j = 0; j < listaCores.length; j++) {
-                if (listaCores[j].emocao === dados[i].emocao) {
-                    cores.push(listaCores[j].cor);
-                    break;
-                }
-            }
-        }
-
-        const config = {
-            type: 'doughnut',
-            data: {
-                labels,
-                datasets: [
-                    {
-                        data: valores,
-                        backgroundColor: cores,
-                        borderWidth: 1,
-                    },
-                ],
-            },
-            options: {
-                responsive: true,
-            },
-        };
-
-        const ctx = document.getElementById("graficoDonutCanvas").getContext("2d");
-        if (graficoDonut) graficoDonut.destroy();
-        graficoDonut = new Chart(ctx, config);
+        const ctx = document.getElementById("graficoDonutMedoRaiva").getContext("2d");
+        const dadosFiltrados = 
+            dados.filter(d => d.emocao === "Medo" || d.emocao === "Raiva");
+        criarGraficoDonut(ctx, dadosFiltrados, graficoDonutMedoRaiva);
+        graficoDonutMedoRaiva = ctx.chart;
     }
 
     function plotarGraficoDonutSurpresaAntecipacao(dados) {
-        const listaCores = [
-            { emocao: "Surpresa", cor: "#0081CF" },
-            { emocao: "Antecipação", cor: "#F2856D" },
-        ];
+        const ctx = document.getElementById("graficoDonutSurpresaAntecipacao").getContext("2d");
+        const dadosFiltrados = 
+            dados.filter(d => d.emocao === "Surpresa" || d.emocao === "Antecipação");
+        criarGraficoDonut(ctx, dadosFiltrados, graficoDonutSurpresaAntecipacao);
+        graficoDonutSurpresaAntecipacao = ctx.chart;
+    }
+
+    function criarGraficoDonut(ctx, dados, graficoExistente) {
+        if (graficoExistente) graficoExistente.destroy();
+
+        const listaCores = {
+            'Alegria': '#FFC75F',
+            'Tristeza': '#845EC2',
+            'Confiança': '#00DA82',
+            'Nojo': '#D65DB1',
+            'Medo': '#008F7A',
+            'Raiva': '#FF6F91',
+            'Surpresa': '#0081CF',
+            'Antecipação': '#F2856D'
+        };
 
         const labels = [];
         const valores = [];
@@ -532,45 +455,38 @@
         for (let i = 0; i < dados.length; i++) {
             labels.push(dados[i].emocao);
             valores.push(dados[i].total);
-
-            for (let j = 0; j < listaCores.length; j++) {
-                if (listaCores[j].emocao === dados[i].emocao) {
-                    cores.push(listaCores[j].cor);
-                    break;
-                }
-            }
+            cores.push(listaCores[dados[i].emocao]);
         }
 
-        const config = {
+        return new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels,
-                datasets: [
-                    {
-                        data: valores,
-                        backgroundColor: cores,
-                        borderWidth: 1,
-                    },
-                ],
+                datasets: [{
+                    data: valores,
+                    backgroundColor: cores,
+                    borderWidth: 1
+                }]
             },
             options: {
                 responsive: true,
-            },
-        };
-
-        const ctx = document.getElementById("graficoDonutCanvas").getContext("2d");
-        if (graficoDonut) graficoDonut.destroy();
-        graficoDonut = new Chart(ctx, config);
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 
-    /*
-        plotarGraficoDonutAlegriaTristeza(idUser);
-        plotarGraficoDonutConfiancaNojo(idUser);
-        plotarGraficoDonutMedoRaiva(idUser);
-        plotarGraficoDonutSurpresaAntecipacao(idUser);
-    */
     function atualizarGraficoDonut(idUser) {
-        obterDadosGraficoDonut(idUser);
+        obterDadosGraficosDonut(idUser);
     }
 
     function limparSessao() {
