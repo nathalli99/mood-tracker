@@ -23,8 +23,8 @@ router.get("/grafico-barras/:idUser", function (req, res) {
     logController.graficoBarras(req, res);
 });
 
-router.get("/grafico-pizza/:idUser", function (req, res) {
-    logController.graficoPizza(req, res);
+router.get("/grafico-donut/:idUser", function (req, res) {
+    logController.graficoDonut(req, res);
 });
 
 module.exports = router;

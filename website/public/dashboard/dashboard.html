@@ -37,42 +37,22 @@
 
 <body>
     <div class="dashboard-container">
-
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <div class="logo-wrapper">
-                    <img src="../assets/imgs/logo.png" alt="">
-                </div>
-                <div class="user-welcome">
-                    Olá, <span id="b_usuario">usuário</span>!
-                </div>
-            </div>
-
-            <nav class="sidebar-nav">
-                <div class="nav-item">
-                    <a href="./dashboard.html" class="nav-link active">
-                        <i class="fi fi-rr-file-chart-line"></i>
-                        Dashboard
-                    </a>
-                </div>
-            </nav>
-
-            <button class="logout-btn" onclick="limparSessao()"> Sair </button>
-        </aside>
-
         <main class="main-content">
-
             <header class="dashboard-header">
-                <h1 class="dashboard-title">Dashboard</h1>
-                <div class="date-filters">
-                    <select class="date-filter">
-                        <option>10-05-2025</option>
-                    </select>
-                    <select class="date-filter">
-                        <option>10-06-2025</option>
-                    </select>
+                <div class="dashboard-left">
+                    <div class="logo-wrapper">
+                        <img src="../assets/imgs/logo.png" alt="Logo MoodTracker">
+                    </div>
+                    <div class="divider"></div>
+                    <span class="user-welcome" id="b_usuario">Usuário</span>
+                </div>
+
+                <div class="dashboard-user-actions">
+                    <button class="logout-btn top" onclick="limparSessao()">Sair</button>
                 </div>
             </header>
+
+
 
             <section class="stats-grid">
                 <div class="stat-card blue">
@@ -133,7 +113,7 @@
                 <section class="graph-section">
                     <h3 class="tituloGraficos">Panorama Emocional</h3>
                     <div class="graph">
-                        <canvas id="graficoPizzaCanvas"></canvas>
+                        <canvas id="graficoDonutCanvas"></canvas>
                     </div>
                 </section>
             </div>
@@ -196,6 +176,7 @@
     </dialog>
 
 </body>
+
 </html>
 
 <script>
@@ -203,14 +184,14 @@
     const idUser = sessionStorage.ID_USUARIO;
 
     let graficoBarras;
-    let graficoPizza;
+    let graficoDonut;
 
     window.onload = () => {
         verificarRegistroDiario(idUser);
         carregarEmocoes();
         configurarModal();
         obterDadosGraficoBarras(idUser);
-        obterDadosGraficoPizza(idUser);
+        obterDadosGraficoDonut(idUser);
     };
 
     function mostrarModal() {
@@ -255,38 +236,38 @@
     }
 
     function carregarEmocoes() {
-    fetch("/emotions/listar")
-        .then((res) => res.json())
-        .then((emotions) => {
-            const container = document.getElementById("emotionsButtons");
+        fetch("/emotions/listar")
+            .then((res) => res.json())
+            .then((emotions) => {
+                const container = document.getElementById("emotionsButtons");
 
-            for (let i = 0; i < emotions.length; i++) {
-                const emotion = emotions[i];
+                for (let i = 0; i < emotions.length; i++) {
+                    const emotion = emotions[i];
 
-                const button = document.createElement("button");
-                button.type = "button";
-                button.className = "buttons-emotions";
-                button.dataset.emotionId = emotion.idEmotion;
-                button.textContent = emotion.nome;
-                button.style.backgroundColor = emotion.cor;
-                button.title = emotion.descricao;
+                    const button = document.createElement("button");
+                    button.type = "button";
+                    button.className = "buttons-emotions";
+                    button.dataset.emotionId = emotion.idEmotion;
+                    button.textContent = emotion.nome;
+                    button.style.backgroundColor = emotion.cor;
+                    button.title = emotion.descricao;
 
-                button.addEventListener("click", () => {
-                    const botoes = document.querySelectorAll(".buttons-emotions");
-                    for (let j = 0; j < botoes.length; j++) {
-                        botoes[j].classList.remove("selected");
-                    }
-                    button.classList.add("selected");
-                    document.getElementById("selectedEmotion").value = emotion.idEmotion;
-                });
+                    button.addEventListener("click", () => {
+                        const botoes = document.querySelectorAll(".buttons-emotions");
+                        for (let j = 0; j < botoes.length; j++) {
+                            botoes[j].classList.remove("selected");
+                        }
+                        button.classList.add("selected");
+                        document.getElementById("selectedEmotion").value = emotion.idEmotion;
+                    });
 
-                container.appendChild(button);
-            }
-        })
-        .catch((error) => {
-            console.error("Erro ao carregar emoções: ", error);
-        });
-}
+                    container.appendChild(button);
+                }
+            })
+            .catch((error) => {
+                console.error("Erro ao carregar emoções: ", error);
+            });
+    }
 
 
 
@@ -327,7 +308,7 @@
                     alert("Marcação de emoção concluída!");
                     fecharModal();
                     atualizarGraficoBarras(idUser);
-                    atualizarGraficoPizza(idUser);
+                    atualizarGraficoDonut(idUser);
                 } else {
                     throw new Error("Erro ao registrar emoção!");
                 }
@@ -345,111 +326,251 @@
     }
 
     function plotarGraficoBarras(dados) {
-    const listaCores = {
-        'Alegria': '#FFC75F',
-        'Tristeza': '#845EC2',
-        'Confiança': '#00DA82',
-        'Nojo': '#D65DB1',
-        'Medo': '#008F7A',
-        'Raiva': '#FF6F91',
-        'Surpresa': '#0081CF',
-        'Antecipação': '#F2856D'
-    };
+        const listaCores = {
+            'Alegria': '#FFC75F',
+            'Tristeza': '#845EC2',
+            'Confiança': '#00DA82',
+            'Nojo': '#D65DB1',
+            'Medo': '#008F7A',
+            'Raiva': '#FF6F91',
+            'Surpresa': '#0081CF',
+            'Antecipação': '#F2856D'
+        };
 
-    const labels = [];
-    const intensidade = [];
-    const cores = [];
+        const labels = [];
+        const intensidade = [];
+        const cores = [];
 
-    for (let i = 0; i < dados.length; i++) {
-        let emocao = dados[i].emocao;
-        labels.push(emocao);
-        intensidade.push(dados[i].media_intensidade);
-        cores.push(listaCores[emocao]);
-    }
+        for (let i = 0; i < dados.length; i++) {
+            let emocao = dados[i].emocao;
+            labels.push(emocao);
+            intensidade.push(dados[i].media_intensidade);
+            cores.push(listaCores[emocao]);
+        }
 
-    const config = {
-        type: 'bar',
-        data: {
-            labels,
-            datasets: [{
-                label: 'Intensidade Média',
-                data: intensidade,
-                backgroundColor: cores,
-                borderColor: cores,
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 5
+        const config = {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Intensidade Média',
+                    data: intensidade,
+                    backgroundColor: cores,
+                    borderColor: cores,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 5
+                    }
                 }
             }
-        }
-    };
+        };
 
-    const ctx = document.getElementById("graficoBarrasCanvas").getContext("2d");
-    if (graficoBarras) graficoBarras.destroy();
-    graficoBarras = new Chart(ctx, config);
-}
+        const ctx = document.getElementById("graficoBarrasCanvas").getContext("2d");
+        if (graficoBarras) graficoBarras.destroy();
+        graficoBarras = new Chart(ctx, config);
+    }
 
 
     function atualizarGraficoBarras(idUser) {
         obterDadosGraficoBarras(idUser);
     }
 
-    function obterDadosGraficoPizza(idUser) {
-        fetch(`/logs/grafico-pizza/${idUser}`)
+    function obterDadosGraficoDonut(idUser) {
+        fetch(`/logs/grafico-donut/${idUser}`)
             .then(res => res.json())
-            .then(dados => plotarGraficoPizza(dados));
+            .then(dados => plotarGraficoDonut(dados));
     }
 
-    function plotarGraficoPizza(dados) {
-    const listaCores = {
-        'Alegria': '#FFC75F',
-        'Tristeza': '#845EC2',
-        'Confiança': '#00DA82',
-        'Nojo': '#D65DB1',
-        'Medo': '#008F7A',
-        'Raiva': '#FF6F91',
-        'Surpresa': '#0081CF',
-        'Antecipação': '#F2856D'
-    };
+    function plotarGraficoDonutAlegriaTristeza(dados) {
+        const listaCores = [
+            { emocao: "Alegria", cor: "#FFC75F" },
+            { emocao: "Tristeza", cor: "#845EC2" },
+        ];
 
-    const labels = [];
-    const intensidade = [];
-    const cores = [];
+        const labels = [];
+        const valores = [];
+        const cores = [];
 
-    for (let i = 0; i < dados.length; i++) {
-        let emotion = dados[i].emotion;
-        labels.push(emotion);
-        intensidade.push(dados[i].total);
-        cores.push(listaCores[emotion]);
-    }
+        for (let i = 0; i < dados.length; i++) {
+            labels.push(dados[i].emocao);
+            valores.push(dados[i].total);
 
-    const config = {
-        type: 'pie',
-        data: {
-            labels,
-            datasets: [{
-                data: intensidade,
-                backgroundColor: cores
-            }]
-        },
-        options: {
-            responsive: true
+            for (let j = 0; j < listaCores.length; j++) {
+                if (listaCores[j].emocao === dados[i].emocao) {
+                    cores.push(listaCores[j].cor);
+                    break;
+                }
+            }
         }
-    };
 
-    const ctx = document.getElementById("graficoPizzaCanvas").getContext("2d");
-    if (graficoPizza) graficoPizza.destroy();
-    graficoPizza = new Chart(ctx, config);
-}
+        const config = {
+            type: 'doughnut',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        data: valores,
+                        backgroundColor: cores,
+                        borderWidth: 1,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+            },
+        };
 
-    function atualizarGraficoPizza(idUser) {
-        obterDadosGraficoPizza(idUser);
+        const ctx = document.getElementById("graficoDonutCanvas").getContext("2d");
+        if (graficoDonut) graficoDonut.destroy();
+        graficoDonut = new Chart(ctx, config);
+    }
+
+    function plotarGraficoDonutConfiancaNojo(dados) {
+        const listaCores = [
+            { emocao: "Confiança", cor: "#00DA82" },
+            { emocao: "Nojo", cor: "#D65DB1" },
+        ];
+
+        const labels = [];
+        const valores = [];
+        const cores = [];
+
+        for (let i = 0; i < dados.length; i++) {
+            labels.push(dados[i].emocao);
+            valores.push(dados[i].total);
+
+            for (let j = 0; j < listaCores.length; j++) {
+                if (listaCores[j].emocao === dados[i].emocao) {
+                    cores.push(listaCores[j].cor);
+                    break;
+                }
+            }
+        }
+
+        const config = {
+            type: 'doughnut',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        data: valores,
+                        backgroundColor: cores,
+                        borderWidth: 1,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+            },
+        };
+
+        const ctx = document.getElementById("graficoDonutCanvas").getContext("2d");
+        if (graficoDonut) graficoDonut.destroy();
+        graficoDonut = new Chart(ctx, config);
+    }
+
+    function plotarGraficoDonutMedoRaiva(dados) {
+        const listaCores = [
+            { emocao: "Medo", cor: "#008F7A" },
+            { emocao: "Raiva", cor: "#FF6F91" },
+        ];
+
+        const labels = [];
+        const valores = [];
+        const cores = [];
+
+        for (let i = 0; i < dados.length; i++) {
+            labels.push(dados[i].emocao);
+            valores.push(dados[i].total);
+
+            for (let j = 0; j < listaCores.length; j++) {
+                if (listaCores[j].emocao === dados[i].emocao) {
+                    cores.push(listaCores[j].cor);
+                    break;
+                }
+            }
+        }
+
+        const config = {
+            type: 'doughnut',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        data: valores,
+                        backgroundColor: cores,
+                        borderWidth: 1,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+            },
+        };
+
+        const ctx = document.getElementById("graficoDonutCanvas").getContext("2d");
+        if (graficoDonut) graficoDonut.destroy();
+        graficoDonut = new Chart(ctx, config);
+    }
+
+    function plotarGraficoDonutSurpresaAntecipacao(dados) {
+        const listaCores = [
+            { emocao: "Surpresa", cor: "#0081CF" },
+            { emocao: "Antecipação", cor: "#F2856D" },
+        ];
+
+        const labels = [];
+        const valores = [];
+        const cores = [];
+
+        for (let i = 0; i < dados.length; i++) {
+            labels.push(dados[i].emocao);
+            valores.push(dados[i].total);
+
+            for (let j = 0; j < listaCores.length; j++) {
+                if (listaCores[j].emocao === dados[i].emocao) {
+                    cores.push(listaCores[j].cor);
+                    break;
+                }
+            }
+        }
+
+        const config = {
+            type: 'doughnut',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        data: valores,
+                        backgroundColor: cores,
+                        borderWidth: 1,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+            },
+        };
+
+        const ctx = document.getElementById("graficoDonutCanvas").getContext("2d");
+        if (graficoDonut) graficoDonut.destroy();
+        graficoDonut = new Chart(ctx, config);
+    }
+
+    /*
+        plotarGraficoDonutAlegriaTristeza(idUser);
+        plotarGraficoDonutConfiancaNojo(idUser);
+        plotarGraficoDonutMedoRaiva(idUser);
+        plotarGraficoDonutSurpresaAntecipacao(idUser);
+    */
+    function atualizarGraficoDonut(idUser) {
+        obterDadosGraficoDonut(idUser);
     }
 
     function limparSessao() {

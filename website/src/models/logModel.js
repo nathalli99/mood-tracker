@@ -81,8 +81,6 @@ function frequenciaMensalPorEmocao(idUser) {
         FROM log l
         JOIN emotion e ON l.fkEmotion = e.idEmotion
         WHERE l.fkUser = ${idUser}
-        AND MONTH(l.dtRegistro) = MONTH(NOW())
-        AND YEAR(l.dtRegistro) = YEAR(NOW())
         GROUP BY e.nome;
     `;
     return database.executar(sql);
