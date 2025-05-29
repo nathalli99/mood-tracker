@@ -423,10 +423,10 @@
     const cores = [];
 
     for (let i = 0; i < dados.length; i++) {
-        let emocao = dados[i].emocao;
-        labels.push(emocao);
+        let emotion = dados[i].emotion;
+        labels.push(emotion);
         intensidade.push(dados[i].total);
-        cores.push(listaCores[emocao]);
+        cores.push(listaCores[emotion]);
     }
 
     const config = {
