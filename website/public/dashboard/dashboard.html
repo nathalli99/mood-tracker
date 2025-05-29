@@ -52,10 +52,8 @@
                 </div>
             </header>
 
-
-
             <section class="stats-grid">
-                <div class="stat-card blue">
+                <div class="stat-card total">
                     <div class="stat-content">
                         <div class="stat-left">
                             <div class="stat-icon">
@@ -63,55 +61,53 @@
                             </div>
                             <div class="stat-text">
                                 <div class="stat-value">Registros</div>
-                                <div class="stat-days">20 dias</div>
+                                <div class="stat-days" id="total-days"></div>
                             </div>
                         </div>
                         <div class="stat-label">Dias de marcação</div>
                     </div>
                 </div>
 
-                <div class="stat-card yellow">
+                <div class="stat-card mais">
                     <div class="stat-content">
                         <div class="stat-left">
                             <div class="stat-icon">
                                 <iconify-icon icon="fluent:add-24-regular"></iconify-icon>
                             </div>
                             <div class="stat-text">
-                                <div class="stat-value">Tristeza</div>
-                                <div class="stat-days">7 dias</div>
+                                <div class="stat-value" id="card-mais"></div>
+                                <div class="stat-days" id="mais-days"></div>
                             </div>
                         </div>
                         <div class="stat-label">Emoção mais presente</div>
                     </div>
                 </div>
 
-
-                <div class="stat-card red">
+                <div class="stat-card menos">
                     <div class="stat-content">
                         <div class="stat-left">
                             <div class="stat-icon">
                                 <iconify-icon icon="fluent:subtract-24-regular"></iconify-icon>
                             </div>
                             <div class="stat-text">
-                                <div class="stat-value">Nojo</div>
-                                <div class="stat-days">2 dias</div>
+                                <div class="stat-value" id="card-menos"></div>
+                                <div class="stat-days" id="menos-days"></div>
                             </div>
                         </div>
                         <div class="stat-label">Emoção menos presente</div>
                     </div>
                 </div>
-
             </section>
 
             <div class="content-grid">
                 <section class="graph-section">
-                    <h3 class="tituloGraficos">Intensidade Média das Emoções</h3>
+                    <h3 class="title-graph">Intensidade Média das Emoções</h3>
                     <div class="graph">
                         <canvas id="graficoBarrasCanvas"></canvas>
                     </div>
                 </section>
                 <section class="graph-section">
-                    <h3 class="tituloGraficos">Panorama Emocional</h3>
+                    <h3 class="title-graph">Panorama Emocional</h3>
                     <div class="donut-grid">
                         <div class="donut-item">
                             <canvas id="graficoDonutAlegriaTristeza"></canvas>
@@ -399,6 +395,7 @@
                 plotarGraficoDonutConfiancaNojo(dados);
                 plotarGraficoDonutMedoRaiva(dados);
                 plotarGraficoDonutSurpresaAntecipacao(dados);
+                atualizarStats(dados);
             });
     }
 
@@ -453,34 +450,86 @@
     }
 
     function plotarGraficoDonutAlegriaTristeza(dados) {
-        const ctx = document.getElementById("graficoDonutAlegriaTristeza").getContext("2d");
-        const dadosFiltrados =
-            dados.filter(d => d.emocao === "Alegria" || d.emocao === "Tristeza");
-        if (graficoDonutAlegriaTristeza) graficoDonutAlegriaTristeza.destroy();
+        let dadosFiltrados = [];
+
+        for (let i = 0; i < dados.length; i++) {
+            let emocao = dados[i].emocao;
+
+            if (emocao === "Alegria" || emocao === "Tristeza") {
+                dadosFiltrados.push(dados[i]);
+            }
+        }
+
+        let canvas = document.getElementById("graficoDonutAlegriaTristeza");
+        let ctx = canvas.getContext("2d");
+
+        if (graficoDonutAlegriaTristeza != null) {
+            graficoDonutAlegriaTristeza.destroy();
+        }
+
         graficoDonutAlegriaTristeza = criarGraficoDonut(ctx, dadosFiltrados);
     }
 
     function plotarGraficoDonutConfiancaNojo(dados) {
-        const ctx = document.getElementById("graficoDonutConfiancaNojo").getContext("2d");
-        const dadosFiltrados =
-            dados.filter(d => d.emocao === "Confiança" || d.emocao === "Nojo");
-        if (graficoDonutConfiancaNojo) graficoDonutConfiancaNojo.destroy();
+        let dadosFiltrados = [];
+
+        for (let i = 0; i < dados.length; i++) {
+            let emocao = dados[i].emocao;
+
+            if (emocao === "Confiança" || emocao === "Nojo") {
+                dadosFiltrados.push(dados[i]);
+            }
+        }
+
+        let canvas = document.getElementById("graficoDonutConfiancaNojo");
+        let ctx = canvas.getContext("2d");
+
+        if (graficoDonutConfiancaNojo != null) {
+            graficoDonutConfiancaNojo.destroy();
+        }
+
         graficoDonutConfiancaNojo = criarGraficoDonut(ctx, dadosFiltrados);
     }
 
     function plotarGraficoDonutMedoRaiva(dados) {
-        const ctx = document.getElementById("graficoDonutMedoRaiva").getContext("2d");
-        const dadosFiltrados =
-            dados.filter(d => d.emocao === "Medo" || d.emocao === "Raiva");
-        if (graficoDonutMedoRaiva) graficoDonutMedoRaiva.destroy();
+        let dadosFiltrados = [];
+
+        for (let i = 0; i < dados.length; i++) {
+            let emocao = dados[i].emocao;
+
+            if (emocao === "Medo" || emocao === "Raiva") {
+                dadosFiltrados.push(dados[i]);
+            }
+        }
+
+        let canvas = document.getElementById("graficoDonutMedoRaiva");
+        let ctx = canvas.getContext("2d");
+
+        if (graficoDonutMedoRaiva != null) {
+            graficoDonutMedoRaiva.destroy();
+        }
+
         graficoDonutMedoRaiva = criarGraficoDonut(ctx, dadosFiltrados);
     }
 
     function plotarGraficoDonutSurpresaAntecipacao(dados) {
-        const ctx = document.getElementById("graficoDonutSurpresaAntecipacao").getContext("2d");
-        const dadosFiltrados =
-            dados.filter(d => d.emocao === "Surpresa" || d.emocao === "Antecipação");
-        if (graficoDonutSurpresaAntecipacao) graficoDonutSurpresaAntecipacao.destroy();
+        let dadosFiltrados = [];
+
+        for (let i = 0; i < dados.length; i++) {
+            let emocao = dados[i].emocao;
+
+            if (emocao === "Surpresa" || emocao === "Antecipação") {
+                dadosFiltrados.push(dados[i]);
+            }
+        }
+
+        let canvas = document.getElementById("graficoDonutSurpresaAntecipacao");
+        let ctx = canvas.getContext("2d");
+
+        if (graficoDonutSurpresaAntecipacao != null) {
+            graficoDonutSurpresaAntecipacao.destroy();
+        }
+
         graficoDonutSurpresaAntecipacao = criarGraficoDonut(ctx, dadosFiltrados);
     }
 
@@ -488,8 +537,57 @@
         obterDadosGraficosDonut(idUser);
     }
 
+    function atualizarStats(dados) {
+
+        const listaCores = {         
+            'Alegria': '#FFC75F',
+            'Tristeza': '#845EC2',
+            'Confiança': '#00DA82',
+            'Nojo': '#D65DB1',
+            'Medo': '#008F7A',
+            'Raiva': '#FF6F91',
+            'Surpresa': '#0081CF',
+            'Antecipação': '#F2856D'
+        };
+
+        let maisPresente = dados[0];
+        let menosPresente = dados[0];
+        let totalRegistros = 0;
+
+        for (let i = 0; i < dados.length; i++) {
+            const item = dados[i];
+            totalRegistros += item.total;
+
+            if (item.total > maisPresente.total) {
+                maisPresente = item;
+            }
+
+            if (item.total < menosPresente.total) {
+                menosPresente = item;
+            }
+        }
+
+        document.getElementById("total-days").innerText = totalRegistros + (totalRegistros === 1 ? " dia" : " dias");
+        document.getElementById("card-mais").innerText = maisPresente.emocao;
+        document.getElementById("mais-days").innerText = `${maisPresente.total} ${maisPresente.total === 1 ? "dia" : "dias"}`;
+        document.getElementById("card-menos").innerText = menosPresente.emocao;
+        document.getElementById("menos-days").innerText = `${menosPresente.total} ${menosPresente.total === 1 ? "dia" : "dias"}`;
+
+        const corMais = listaCores[maisPresente.emocao];
+        const corMenos = listaCores[menosPresente.emocao];
+
+        document.documentElement.style.setProperty('--cor-mais', corMais);
+        document.documentElement.style.setProperty('--cor-menos', corMenos);
+    }
+
     function limparSessao() {
         sessionStorage.clear();
         window.location = '../login.html';
     }
+
+
+    // depois adicionar lógica para quando o mais presente e menos presente for a mesma quantidade, desempatar o que aparece no stat por intensidade
+    // ver o que fazer em relação ao panorama emocional, quando o usuário só tem uma/duas ou três emocoes de cada oposto o gráfico não é plotado e fica visualmente feio
+    // transformar a primeira letra do nome do usuário em UpperCase, pensar melhor na quantidade de caracteres, e adicionar validações mais fortes para senha
+    //arrumar o caminho do cadastro para direcionar pro login
 </script>
