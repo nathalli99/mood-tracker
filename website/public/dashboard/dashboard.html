@@ -402,40 +402,7 @@
             });
     }
 
-    function plotarGraficoDonutAlegriaTristeza(dados) {
-        const ctx = document.getElementById("graficoDonutAlegriaTristeza").getContext("2d");
-        const dadosFiltrados = 
-            dados.filter(d => d.emocao === "Alegria" || d.emocao === "Tristeza");
-        criarGraficoDonut(ctx, dadosFiltrados, graficoDonutAlegriaTristeza);
-        graficoDonutAlegriaTristeza = ctx.chart;
-    }
-
-    function plotarGraficoDonutConfiancaNojo(dados) {
-        const ctx = document.getElementById("graficoDonutConfiancaNojo").getContext("2d");
-        const dadosFiltrados = 
-            dados.filter(d => d.emocao === "Confiança" || d.emocao === "Nojo");
-        criarGraficoDonut(ctx, dadosFiltrados, graficoDonutConfiancaNojo);
-        graficoDonutConfiancaNojo = ctx.chart;
-    }
-
-    function plotarGraficoDonutMedoRaiva(dados) {
-        const ctx = document.getElementById("graficoDonutMedoRaiva").getContext("2d");
-        const dadosFiltrados = 
-            dados.filter(d => d.emocao === "Medo" || d.emocao === "Raiva");
-        criarGraficoDonut(ctx, dadosFiltrados, graficoDonutMedoRaiva);
-        graficoDonutMedoRaiva = ctx.chart;
-    }
-
-    function plotarGraficoDonutSurpresaAntecipacao(dados) {
-        const ctx = document.getElementById("graficoDonutSurpresaAntecipacao").getContext("2d");
-        const dadosFiltrados = 
-            dados.filter(d => d.emocao === "Surpresa" || d.emocao === "Antecipação");
-        criarGraficoDonut(ctx, dadosFiltrados, graficoDonutSurpresaAntecipacao);
-        graficoDonutSurpresaAntecipacao = ctx.chart;
-    }
-
-    function criarGraficoDonut(ctx, dados, graficoExistente) {
-        if (graficoExistente) graficoExistente.destroy();
+    function criarGraficoDonut(ctx, dados) {
 
         const listaCores = {
             'Alegria': '#FFC75F',
@@ -483,6 +450,38 @@
                 }
             }
         });
+    }
+
+    function plotarGraficoDonutAlegriaTristeza(dados) {
+        const ctx = document.getElementById("graficoDonutAlegriaTristeza").getContext("2d");
+        const dadosFiltrados =
+            dados.filter(d => d.emocao === "Alegria" || d.emocao === "Tristeza");
+        if (graficoDonutAlegriaTristeza) graficoDonutAlegriaTristeza.destroy();
+        graficoDonutAlegriaTristeza = criarGraficoDonut(ctx, dadosFiltrados);
+    }
+
+    function plotarGraficoDonutConfiancaNojo(dados) {
+        const ctx = document.getElementById("graficoDonutConfiancaNojo").getContext("2d");
+        const dadosFiltrados =
+            dados.filter(d => d.emocao === "Confiança" || d.emocao === "Nojo");
+        if (graficoDonutConfiancaNojo) graficoDonutConfiancaNojo.destroy();
+        graficoDonutConfiancaNojo = criarGraficoDonut(ctx, dadosFiltrados);
+    }
+
+    function plotarGraficoDonutMedoRaiva(dados) {
+        const ctx = document.getElementById("graficoDonutMedoRaiva").getContext("2d");
+        const dadosFiltrados =
+            dados.filter(d => d.emocao === "Medo" || d.emocao === "Raiva");
+        if (graficoDonutMedoRaiva) graficoDonutMedoRaiva.destroy();
+        graficoDonutMedoRaiva = criarGraficoDonut(ctx, dadosFiltrados);
+    }
+
+    function plotarGraficoDonutSurpresaAntecipacao(dados) {
+        const ctx = document.getElementById("graficoDonutSurpresaAntecipacao").getContext("2d");
+        const dadosFiltrados =
+            dados.filter(d => d.emocao === "Surpresa" || d.emocao === "Antecipação");
+        if (graficoDonutSurpresaAntecipacao) graficoDonutSurpresaAntecipacao.destroy();
+        graficoDonutSurpresaAntecipacao = criarGraficoDonut(ctx, dadosFiltrados);
     }
 
     function atualizarGraficoDonut(idUser) {

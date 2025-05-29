@@ -78,7 +78,7 @@ function graficoBarras(req, res) {
         .then(resposta => res.json(resposta));
 }
 
-function graficoPizza(req, res) {
+function graficoDonut(req, res) {
     var idUser = req.params.idUser;
 
     logModel.frequenciaMensalPorEmocao(idUser)
@@ -91,5 +91,5 @@ module.exports = {
     buscarUltimosLogs,
     buscarLogDeHoje,
     graficoBarras,
-    graficoPizza
+    graficoDonut
 };
