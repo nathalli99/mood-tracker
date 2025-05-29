@@ -255,32 +255,39 @@
     }
 
     function carregarEmocoes() {
-        fetch("/emotions/listar")
-            .then((res) => res.json())
-            .then((emotions) => {
-                const container = document.getElementById("emotionsButtons");
-                emotions.forEach((emotion) => {
-                    const button = document.createElement("button");
-                    button.type = "button";
-                    button.className = "buttons-emotions";
-                    button.dataset.emotionId = emotion.idEmotion;
-                    button.textContent = emotion.nome;
-                    button.style.backgroundColor = emotion.cor; // cor de cada emoção
-                    button.title = emotion.descricao; // hover de descrição da emoção
-                    button.addEventListener("click", () => {
-                        document.querySelectorAll(".buttons-emotions").forEach((btn) => {
-                            btn.classList.remove("selected");
-                        });
-                        button.classList.add("selected");
-                        document.getElementById("selectedEmotion").value = emotion.idEmotion;
-                    });
-                    container.appendChild(button);
+    fetch("/emotions/listar")
+        .then((res) => res.json())
+        .then((emotions) => {
+            const container = document.getElementById("emotionsButtons");
+
+            for (let i = 0; i < emotions.length; i++) {
+                const emotion = emotions[i];
+
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "buttons-emotions";
+                button.dataset.emotionId = emotion.idEmotion;
+                button.textContent = emotion.nome;
+                button.style.backgroundColor = emotion.cor;
+                button.title = emotion.descricao;
+
+                button.addEventListener("click", () => {
+                    const botoes = document.querySelectorAll(".buttons-emotions");
+                    for (let j = 0; j < botoes.length; j++) {
+                        botoes[j].classList.remove("selected");
+                    }
+                    button.classList.add("selected");
+                    document.getElementById("selectedEmotion").value = emotion.idEmotion;
                 });
-            })
-            .catch((error) => {
-                console.error("Erro ao carregar emoções: ", error)
-            });
-    }
+
+                container.appendChild(button);
+            }
+        })
+        .catch((error) => {
+            console.error("Erro ao carregar emoções: ", error);
+        });
+}
+
 
 
     // verificar registro diário, caso não tenha vai mostrar o modal para marcação
@@ -338,38 +345,56 @@
     }
 
     function plotarGraficoBarras(dados) {
-        const labels = dados.map(d => d.emocao);
-        const valores = dados.map(d => d.media_intensidade);
+    const listaCores = {
+        'Alegria': '#FFC75F',
+        'Tristeza': '#845EC2',
+        'Confiança': '#00DA82',
+        'Nojo': '#D65DB1',
+        'Medo': '#008F7A',
+        'Raiva': '#FF6F91',
+        'Surpresa': '#0081CF',
+        'Antecipação': '#F2856D'
+    };
 
-        const config = {
-            type: 'bar',
-            data: {
-                labels,
-                datasets: [{
-                    label: 'Intensidade Média',
-                    data: valores,
-                    backgroundColor: '#845EC2',
-                    borderColor: '#5C469C',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 5
-                    }
+    const labels = [];
+    const intensidade = [];
+    const cores = [];
+
+    for (let i = 0; i < dados.length; i++) {
+        let emocao = dados[i].emocao;
+        labels.push(emocao);
+        intensidade.push(dados[i].media_intensidade);
+        cores.push(listaCores[emocao]);
+    }
+
+    const config = {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [{
+                label: 'Intensidade Média',
+                data: intensidade,
+                backgroundColor: cores,
+                borderColor: cores,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 5
                 }
             }
-        };
+        }
+    };
 
-        const ctx = document.getElementById("graficoBarrasCanvas").getContext("2d");
+    const ctx = document.getElementById("graficoBarrasCanvas").getContext("2d");
+    if (graficoBarras) graficoBarras.destroy();
+    graficoBarras = new Chart(ctx, config);
+}
 
-        if (graficoBarras) graficoBarras.destroy();
-
-        graficoBarras = new Chart(ctx, config);
-    }
 
     function atualizarGraficoBarras(idUser) {
         obterDadosGraficoBarras(idUser);
@@ -382,34 +407,46 @@
     }
 
     function plotarGraficoPizza(dados) {
-        const labels = dados.map(d => d.emocao);
-        const valores = dados.map(d => d.total);
+    const listaCores = {
+        'Alegria': '#FFC75F',
+        'Tristeza': '#845EC2',
+        'Confiança': '#00DA82',
+        'Nojo': '#D65DB1',
+        'Medo': '#008F7A',
+        'Raiva': '#FF6F91',
+        'Surpresa': '#0081CF',
+        'Antecipação': '#F2856D'
+    };
 
-        const cores = [
-            '#FFC75F', '#00DA82', '#008F7A', '#0081CF',
-            '#845EC2', '#D65DB1', '#FF6F91', '#F2856D'
-        ];
+    const labels = [];
+    const intensidade = [];
+    const cores = [];
 
-        const config = {
-            type: 'pie',
-            data: {
-                labels,
-                datasets: [{
-                    data: valores,
-                    backgroundColor: cores
-                }]
-            },
-            options: {
-                responsive: true
-            }
-        };
-
-        const ctx = document.getElementById("graficoPizzaCanvas").getContext("2d");
-
-        if (graficoPizza) graficoPizza.destroy();
-
-        graficoPizza = new Chart(ctx, config);
+    for (let i = 0; i < dados.length; i++) {
+        let emocao = dados[i].emocao;
+        labels.push(emocao);
+        intensidade.push(dados[i].total);
+        cores.push(listaCores[emocao]);
     }
+
+    const config = {
+        type: 'pie',
+        data: {
+            labels,
+            datasets: [{
+                data: intensidade,
+                backgroundColor: cores
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    };
+
+    const ctx = document.getElementById("graficoPizzaCanvas").getContext("2d");
+    if (graficoPizza) graficoPizza.destroy();
+    graficoPizza = new Chart(ctx, config);
+}
 
     function atualizarGraficoPizza(idUser) {
         obterDadosGraficoPizza(idUser);
