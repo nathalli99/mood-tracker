@@ -144,6 +144,23 @@ body, html {
   box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
 }
 
+.alerta_sucesso {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.card_sucesso {
+  background-color: #e1ffe3;
+  color: #1ba100;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  display: none;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+}
 
 @media (max-width: 768px) {
   .login {
