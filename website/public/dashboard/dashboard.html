@@ -187,7 +187,12 @@
 </html>
 
 <script>
-    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+    function primeirLetraMaiuscula(nome) {
+        return String(nome).charAt(0).toUpperCase() + String(nome).slice(1);
+    }
+    b_usuario.innerHTML = primeirLetraMaiuscula(sessionStorage.NOME_USUARIO);
+
     const idUser = sessionStorage.ID_USUARIO;
 
     let graficoBarras;
@@ -540,7 +545,7 @@
 
     function atualizarStats(dados) {
 
-        const listaCores = {         
+        const listaCores = {
             'Alegria': '#FFC75F',
             'Tristeza': '#845EC2',
             'Confiança': '#00DA82',
@@ -588,6 +593,5 @@
 
 
     // ver o que fazer em relação ao panorama emocional, quando o usuário só tem uma/duas ou três emocoes de cada oposto o gráfico não é plotado e fica visualmente feio
-    // transformar a primeira letra do nome do usuário em UpperCase, pensar melhor na quantidade de caracteres, e adicionar validações mais fortes para senha
     //arrumar o caminho do cadastro para direcionar pro login
 </script>
