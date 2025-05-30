@@ -559,11 +559,11 @@
             const item = dados[i];
             totalRegistros += item.total;
 
-            if (item.total > maisPresente.total) {
+            if (item.total > maisPresente.total || (item.total == maisPresente.total && item.media_intensidade > maisPresente.media_intensidade)) {
                 maisPresente = item;
             }
 
-            if (item.total < menosPresente.total) {
+            if (item.total < menosPresente.total || (item.total == menosPresente.total && item.media_intensidade < menosPresente.media_intensidade)) {
                 menosPresente = item;
             }
         }
@@ -587,7 +587,6 @@
     }
 
 
-    // depois adicionar lógica para quando o mais presente e menos presente for a mesma quantidade, desempatar o que aparece no stat por intensidade
     // ver o que fazer em relação ao panorama emocional, quando o usuário só tem uma/duas ou três emocoes de cada oposto o gráfico não é plotado e fica visualmente feio
     // transformar a primeira letra do nome do usuário em UpperCase, pensar melhor na quantidade de caracteres, e adicionar validações mais fortes para senha
     //arrumar o caminho do cadastro para direcionar pro login

@@ -77,7 +77,8 @@ function frequenciaMensalPorEmocao(idUser) {
     const sql = `
         SELECT 
             e.nome AS emocao,
-            COUNT(*) AS total
+            COUNT(*) AS total,
+            ROUND(AVG(l.intensidade), 2) AS media_intensidade
         FROM log l
         JOIN emotion e ON l.fkEmotion = e.idEmotion
         WHERE l.fkUser = ${idUser}
