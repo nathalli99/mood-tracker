@@ -73,7 +73,7 @@ function intensidadeMediaPorEmocao(idUser) {
     return database.executar(sql);
 }
 
-function frequenciaMensalPorEmocao(idUser) {
+function frequenciaPorEmocao(idUser) {
     const sql = `
         SELECT 
             e.nome AS emocao,
@@ -94,6 +94,6 @@ module.exports = {
     buscarUltimosLogs,
     buscarLogDeHoje,
     intensidadeMediaPorEmocao,
-    frequenciaMensalPorEmocao
+    frequenciaPorEmocao
 
 };

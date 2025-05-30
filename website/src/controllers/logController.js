@@ -81,7 +81,7 @@ function graficoBarras(req, res) {
 function graficoDonut(req, res) {
     var idUser = req.params.idUser;
 
-    logModel.frequenciaMensalPorEmocao(idUser)
+    logModel.frequenciaPorEmocao(idUser)
         .then(resposta => res.json(resposta));
 }
 

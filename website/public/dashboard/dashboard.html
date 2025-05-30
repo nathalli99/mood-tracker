@@ -108,19 +108,8 @@
                 </section>
                 <section class="graph-section">
                     <h3 class="title-graph">Panorama Emocional</h3>
-                    <div class="donut-grid">
-                        <div class="donut-item">
-                            <canvas id="graficoDonutAlegriaTristeza"></canvas>
-                        </div>
-                        <div class="donut-item">
-                            <canvas id="graficoDonutConfiancaNojo"></canvas>
-                        </div>
-                        <div class="donut-item">
-                            <canvas id="graficoDonutMedoRaiva"></canvas>
-                        </div>
-                        <div class="donut-item">
-                            <canvas id="graficoDonutSurpresaAntecipacao"></canvas>
-                        </div>
+                    <div class="graph">
+                        <canvas id="graficoDonutCanvas"></canvas>
                     </div>
                 </section>
 
@@ -196,17 +185,14 @@
     const idUser = sessionStorage.ID_USUARIO;
 
     let graficoBarras;
-    let graficoDonutAlegriaTristeza;
-    let graficoDonutConfiancaNojo;
-    let graficoDonutMedoRaiva;
-    let graficoDonutSurpresaAntecipacao;
+    let graficoDonut;
 
     window.onload = () => {
         verificarRegistroDiario(idUser);
         carregarEmocoes();
         configurarModal();
         obterDadosGraficoBarras(idUser);
-        obterDadosGraficosDonut(idUser);
+        obterDadosGraficoDonut(idUser);
     };
 
     function mostrarModal() {
@@ -392,155 +378,74 @@
         obterDadosGraficoBarras(idUser);
     }
 
-    function obterDadosGraficosDonut(idUser) {
+    function obterDadosGraficoDonut(idUser) {
         fetch(`/logs/grafico-donut/${idUser}`)
             .then(res => res.json())
             .then(dados => {
-                plotarGraficoDonutAlegriaTristeza(dados);
-                plotarGraficoDonutConfiancaNojo(dados);
-                plotarGraficoDonutMedoRaiva(dados);
-                plotarGraficoDonutSurpresaAntecipacao(dados);
+                plotarGraficoDonut(dados);
                 atualizarStats(dados);
             });
     }
 
-    function criarGraficoDonut(ctx, dados) {
+function plotarGraficoDonut(dados) {
+    const listaCores = {
+        'Alegria': '#FFC75F',
+        'Tristeza': '#845EC2',
+        'Confiança': '#00DA82',
+        'Nojo': '#D65DB1',
+        'Medo': '#008F7A',
+        'Raiva': '#FF6F91',
+        'Surpresa': '#0081CF',
+        'Antecipação': '#F2856D'
+    };
 
-        const listaCores = {
-            'Alegria': '#FFC75F',
-            'Tristeza': '#845EC2',
-            'Confiança': '#00DA82',
-            'Nojo': '#D65DB1',
-            'Medo': '#008F7A',
-            'Raiva': '#FF6F91',
-            'Surpresa': '#0081CF',
-            'Antecipação': '#F2856D'
-        };
+    const labels = [];
+    const valores = [];
+    const cores = [];
 
-        const labels = [];
-        const valores = [];
-        const cores = [];
+    for (let i = 0; i < dados.length; i++) {
+    let emotion = dados[i].emocao; 
+    labels.push(emotion);
+    valores.push(dados[i].total);
+    cores.push(listaCores[emotion]);
+}
 
-        for (let i = 0; i < dados.length; i++) {
-            labels.push(dados[i].emocao);
-            valores.push(dados[i].total);
-            cores.push(listaCores[dados[i].emocao]);
-        }
-
-        return new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels,
-                datasets: [{
-                    data: valores,
-                    backgroundColor: cores,
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                rotation: -180,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            font: {
-                                size: 12
-                            }
+    const config = {
+        type: 'doughnut',
+        data: {
+            labels,
+            datasets: [{
+                data: valores,
+                backgroundColor: cores,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            rotation: -180,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: {
+                            size: 12
                         }
                     }
                 }
             }
-        });
-    }
-
-    function plotarGraficoDonutAlegriaTristeza(dados) {
-        let dadosFiltrados = [];
-
-        for (let i = 0; i < dados.length; i++) {
-            let emocao = dados[i].emocao;
-
-            if (emocao === "Alegria" || emocao === "Tristeza") {
-                dadosFiltrados.push(dados[i]);
-            }
         }
+    };
 
-        let canvas = document.getElementById("graficoDonutAlegriaTristeza");
-        let ctx = canvas.getContext("2d");
+    const ctx = document.getElementById("graficoDonutCanvas").getContext("2d");
+    if (graficoDonut) graficoDonut.destroy();
+    graficoDonut = new Chart(ctx, config);
+}
 
-        if (graficoDonutAlegriaTristeza != null) {
-            graficoDonutAlegriaTristeza.destroy();
-        }
 
-        graficoDonutAlegriaTristeza = criarGraficoDonut(ctx, dadosFiltrados);
-    }
-
-    function plotarGraficoDonutConfiancaNojo(dados) {
-        let dadosFiltrados = [];
-
-        for (let i = 0; i < dados.length; i++) {
-            let emocao = dados[i].emocao;
-
-            if (emocao === "Confiança" || emocao === "Nojo") {
-                dadosFiltrados.push(dados[i]);
-            }
-        }
-
-        let canvas = document.getElementById("graficoDonutConfiancaNojo");
-        let ctx = canvas.getContext("2d");
-
-        if (graficoDonutConfiancaNojo != null) {
-            graficoDonutConfiancaNojo.destroy();
-        }
-
-        graficoDonutConfiancaNojo = criarGraficoDonut(ctx, dadosFiltrados);
-    }
-
-    function plotarGraficoDonutMedoRaiva(dados) {
-        let dadosFiltrados = [];
-
-        for (let i = 0; i < dados.length; i++) {
-            let emocao = dados[i].emocao;
-
-            if (emocao === "Medo" || emocao === "Raiva") {
-                dadosFiltrados.push(dados[i]);
-            }
-        }
-
-        let canvas = document.getElementById("graficoDonutMedoRaiva");
-        let ctx = canvas.getContext("2d");
-
-        if (graficoDonutMedoRaiva != null) {
-            graficoDonutMedoRaiva.destroy();
-        }
-
-        graficoDonutMedoRaiva = criarGraficoDonut(ctx, dadosFiltrados);
-    }
-
-    function plotarGraficoDonutSurpresaAntecipacao(dados) {
-        let dadosFiltrados = [];
-
-        for (let i = 0; i < dados.length; i++) {
-            let emocao = dados[i].emocao;
-
-            if (emocao === "Surpresa" || emocao === "Antecipação") {
-                dadosFiltrados.push(dados[i]);
-            }
-        }
-
-        let canvas = document.getElementById("graficoDonutSurpresaAntecipacao");
-        let ctx = canvas.getContext("2d");
-
-        if (graficoDonutSurpresaAntecipacao != null) {
-            graficoDonutSurpresaAntecipacao.destroy();
-        }
-
-        graficoDonutSurpresaAntecipacao = criarGraficoDonut(ctx, dadosFiltrados);
-    }
 
     function atualizarGraficoDonut(idUser) {
-        obterDadosGraficosDonut(idUser);
+        obterDadosGraficoDonut(idUser);
     }
 
     function atualizarStats(dados) {
@@ -591,7 +496,4 @@
         window.location = '../login.html';
     }
 
-
-    // ver o que fazer em relação ao panorama emocional, quando o usuário só tem uma/duas ou três emocoes de cada oposto o gráfico não é plotado e fica visualmente feio
-    //arrumar o caminho do cadastro para direcionar pro login
 </script>
