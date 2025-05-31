@@ -8,9 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MoodTracker | Dashboard</title>
 
-
     <link rel="stylesheet" href="./../css/dashboards.css">
     <link rel="stylesheet" href="./../css/estilo.css" />
+    <link rel="icon" href="../assets/icon/logotitle.svg" />
     <script src="../js/sessao.js"></script>
     <script src="./../js/alerta.js"></script>
 
@@ -24,16 +24,15 @@
     <!-- scripts do Chart.js - 2022-1 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <!-- script do chart.js para mostrar a quantidade -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
     <!--FONT AWESOME-->
     <script src="https://kit.fontawesome.com/9f7414eb10.js" crossorigin="anonymous"></script>
 
     <!--ICONIFY-->
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-
-
 </head>
-
-<!-- <body onload=" atualizarFeed()"> -->
 
 <body>
     <div class="dashboard-container">
@@ -51,7 +50,6 @@
                     <button class="logout-btn top" onclick="limparSessao()">Sair</button>
                 </div>
             </header>
-
             <section class="stats-grid">
                 <div class="stat-card total">
                     <div class="stat-content">
@@ -67,7 +65,6 @@
                         <div class="stat-label">Dias de marcação</div>
                     </div>
                 </div>
-
                 <div class="stat-card mais">
                     <div class="stat-content">
                         <div class="stat-left">
@@ -82,7 +79,6 @@
                         <div class="stat-label">Emoção mais presente</div>
                     </div>
                 </div>
-
                 <div class="stat-card menos">
                     <div class="stat-content">
                         <div class="stat-left">
@@ -98,7 +94,6 @@
                     </div>
                 </div>
             </section>
-
             <div class="content-grid">
                 <section class="graph-section">
                     <h3 class="title-graph">Intensidade Média das Emoções</h3>
@@ -112,10 +107,8 @@
                         <canvas id="graficoDonutCanvas"></canvas>
                     </div>
                 </section>
-
             </div>
             <div id="mensagem_erro"></div>
-
         </main>
     </div>
 
@@ -132,7 +125,6 @@
                     </div>
                     <input type="hidden" id="selectedEmotion" name="emotion" required>
                 </div>
-
                 <div class="intensity-selection">
                     <label>Com que intensidade você sentiu essa emoção?</label>
                     <div class="radio_container">
@@ -174,7 +166,6 @@
 </body>
 
 </html>
-
 <script>
 
     function primeirLetraMaiuscula(nome) {
@@ -387,62 +378,72 @@
             });
     }
 
-function plotarGraficoDonut(dados) {
-    const listaCores = {
-        'Alegria': '#FFC75F',
-        'Tristeza': '#845EC2',
-        'Confiança': '#00DA82',
-        'Nojo': '#D65DB1',
-        'Medo': '#008F7A',
-        'Raiva': '#FF6F91',
-        'Surpresa': '#0081CF',
-        'Antecipação': '#F2856D'
-    };
+    function plotarGraficoDonut(dados) {
+        const listaCores = {
+            'Alegria': '#FFC75F',
+            'Tristeza': '#845EC2',
+            'Confiança': '#00DA82',
+            'Nojo': '#D65DB1',
+            'Medo': '#008F7A',
+            'Raiva': '#FF6F91',
+            'Surpresa': '#0081CF',
+            'Antecipação': '#F2856D'
+        };
 
-    const labels = [];
-    const valores = [];
-    const cores = [];
+        const labels = [];
+        const valores = [];
+        const cores = [];
 
-    for (let i = 0; i < dados.length; i++) {
-    let emotion = dados[i].emocao; 
-    labels.push(emotion);
-    valores.push(dados[i].total);
-    cores.push(listaCores[emotion]);
-}
+        for (let i = 0; i < dados.length; i++) {
+            let emotion = dados[i].emocao;
+            labels.push(emotion);
+            valores.push(dados[i].total);
+            cores.push(listaCores[emotion]);
+        }
 
-    const config = {
-        type: 'doughnut',
-        data: {
-            labels,
-            datasets: [{
-                data: valores,
-                backgroundColor: cores,
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            rotation: -180,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        font: {
-                            size: 12
+        const config = {
+            type: 'doughnut',
+            data: {
+                labels,
+                datasets: [{
+                    data: valores,
+                    backgroundColor: cores,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                rotation: -180,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                size: 12
+                            }
                         }
+                    },
+                    datalabels: {
+                        color: '#FFF',
+                        font: {
+                            weight: 'bold',
+                            size: 14
+                        },
+                        formatter: (value) => value
                     }
                 }
             }
-        }
-    };
+        };
 
-    const ctx = document.getElementById("graficoDonutCanvas").getContext("2d");
-    if (graficoDonut) graficoDonut.destroy();
-    graficoDonut = new Chart(ctx, config);
-}
+        const ctx = document.getElementById("graficoDonutCanvas").getContext("2d");
+        if (graficoDonut) graficoDonut.destroy();
+        graficoDonut = new Chart(ctx, {
+            ...config,
+            plugins: [ChartDataLabels]
+        });
 
-
+    }
 
     function atualizarGraficoDonut(idUser) {
         obterDadosGraficoDonut(idUser);

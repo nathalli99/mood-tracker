@@ -11,7 +11,7 @@ body, html {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background-color: #fff;
+  background-color: #FFF;
 }
 
 .login {
@@ -23,7 +23,7 @@ body, html {
 .painel-esquerdo {
   width: 35%;
   padding: 40px 24px;
-  background-color: #fff;
+  background-color: #FFF;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -81,7 +81,7 @@ body, html {
 .campo input {
   padding: 10px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #CCC;
   outline: none;
   font-size: 14px;
   width: 100%;
@@ -135,8 +135,8 @@ body, html {
 }
 
 .card_erro {
-  background-color: #ffe1e1;
-  color: #a10000;
+  background-color: #FFE1E1;
+  color: #A10000;
   padding: 10px 20px;
   border-radius: 8px;
   font-size: 14px;
@@ -153,8 +153,8 @@ body, html {
 }
 
 .card_sucesso {
-  background-color: #e1ffe3;
-  color: #1ba100;
+  background-color: #E1FFE3;
+  color: #1BA100;
   padding: 10px 20px;
   border-radius: 8px;
   font-size: 14px;
