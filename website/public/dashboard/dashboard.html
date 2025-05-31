@@ -45,7 +45,6 @@
                     <div class="divider"></div>
                     <span class="user-welcome" id="b_usuario">Usuário</span>
                 </div>
-
                 <div class="dashboard-user-actions">
                     <button class="logout-btn top" onclick="limparSessao()">Sair</button>
                 </div>
@@ -115,14 +114,12 @@
     <dialog id="emotionModal" class="mood-modal">
         <div class="emotion-modal">
             <div class="title-modal">
-                <h2>Qual emoção marcou o seu dia?</h2>
+                <h4>Qual emoção marcou o seu dia?</h4>
             </div>
-            <label>Escolha a emoção que melhor representa o seu dia:</label>
+            <label>Escolha a emoção que mais impactou seu dia:</label>
             <form id="formEmotions" class="form-emotions">
                 <div class="emotions-selection">
-                    <div id="emotionsButtons" class="emotions-buttons">
-                        <!-- botões serão carregados dinamicamente aqui-->
-                    </div>
+                    <div id="emotionsButtons" class="emotions-buttons"></div>
                     <input type="hidden" id="selectedEmotion" name="emotion" required>
                 </div>
                 <div class="intensity-selection">
