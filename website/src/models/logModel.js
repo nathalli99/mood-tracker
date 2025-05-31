@@ -33,7 +33,7 @@ function buscarUltimosLogs(idUser) {
         SELECT 
             l.intensidade,
             e.nome AS emocao,
-            DATE_FORMAT(l.dtRegistro, '%d/%m/%Y') AS data 
+            DATE_FORMAT(l.dtRegistro, '%d/%m/%Y') AS DataLog
         FROM log l
         JOIN emotion e ON l.fkEmotion = e.idEmotion
         WHERE l.fkUser = ${idUser}

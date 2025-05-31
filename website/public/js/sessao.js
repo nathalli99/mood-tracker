@@ -17,21 +17,3 @@ function limparSessao() {
     window.location = "../login.html";
 }
 
-// carregamento (loading)
-function aguardar() {
-    var divAguardar = document.getElementById("div_aguardar");
-    divAguardar.style.display = "flex";
-    div_blocked_back.style.display = "flex";
-}
-
-function finalizarAguardar(texto) {
-    var divAguardar = document.getElementById("div_aguardar");
-    divAguardar.style.display = "none";
-    
-    var divErrosLogin = document.getElementById("div_erros_login");
-    if (texto) {
-        div_blocked_back.style.display = "none";
-        divErrosLogin.style.display = "flex";
-        divErrosLogin.innerHTML = texto;
-    }
-}

@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="./../css/estilo.css" />
     <link rel="icon" href="../assets/icon/logotitle.svg" />
     <script src="../js/sessao.js"></script>
-    <script src="./../js/alerta.js"></script>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link
@@ -107,7 +106,6 @@
                     </div>
                 </section>
             </div>
-            <div id="mensagem_erro"></div>
         </main>
     </div>
 
@@ -161,16 +159,14 @@
     </dialog>
 
 </body>
-
 </html>
 <script>
 
-    function primeirLetraMaiuscula(nome) {
-        return String(nome).charAt(0).toUpperCase() + String(nome).slice(1);
-    }
-    b_usuario.innerHTML = primeirLetraMaiuscula(sessionStorage.NOME_USUARIO);
+    let nome = sessionStorage.getItem("NOME_USUARIO");
+    nome = nome[0].toUpperCase() + nome.slice(1);
+    document.getElementById("b_usuario").innerHTML = nome;
+    let idUser = sessionStorage.getItem("ID_USUARIO");
 
-    const idUser = sessionStorage.ID_USUARIO;
 
     let graficoBarras;
     let graficoDonut;
@@ -197,29 +193,21 @@
         const modal = document.getElementById("emotionModal");
         const form = document.getElementById("formEmotions");
 
-        // receber o submit do forms
-        form.addEventListener("submit", (e) => {
+        // impede o envio do formulário e chama a função de registrar
+        form.addEventListener("submit", function (e) {
             e.preventDefault();
             registrarEmocao();
         });
-
         // bloqueia ESC diretamente no keydown
-        modal.addEventListener('keydown', (e) => {
-            if (e.key == 'Escape' || e.keyCode == 27) {
+        modal.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") {
                 e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-                return false;
             }
         });
-
         // evita clique fora do modal
-        modal.addEventListener('click', (e) => {
-            const form = modal.querySelector('form');
+        modal.addEventListener("click", function (e) {
             if (!form.contains(e.target)) {
-                e.preventDefault();
                 e.stopPropagation();
-                return false;
             }
         });
     }
@@ -291,7 +279,6 @@
         })
             .then((res) => {
                 if (res.ok) {
-                    alert("Marcação de emoção concluída!");
                     fecharModal();
                     atualizarGraficoBarras(idUser);
                     atualizarGraficoDonut(idUser);
@@ -301,14 +288,14 @@
             })
             .catch((error) => {
                 console.error("Erro ao registrar emoção: ", error);
-                alert("Erro ao registrar emoção. Tente novamente!");
             });
     }
 
     function obterDadosGraficoBarras(idUser) {
         fetch(`/logs/grafico-barras/${idUser}`)
             .then(res => res.json())
-            .then(dados => plotarGraficoBarras(dados));
+            .then(dados => plotarGraficoBarras(dados))
+            .catch(error => console.error("Erro ao buscar gráfico de barras:", error));
     }
 
     function plotarGraficoBarras(dados) {

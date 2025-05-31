@@ -62,7 +62,6 @@
 
 <script>
   function entrar() {
-    //aguardar();
 
     event.preventDefault();
 
@@ -72,17 +71,14 @@
     if (emailVar == "" || senhaVar == "") {
       cardErro.style.display = "block";
       mensagem_erro.innerHTML = "Preencha todos os campos.";
-      finalizarAguardar();
       return false;
+
     } else if (!emailVar.includes('@') || !emailVar.includes('.')) {
       cardErro.style.display = "block";
       mensagem_erro.innerHTML = "Email inválido!";
-
-      finalizarAguardar();
       return false;
 
-    }
-    else {
+    } else {
       setInterval(sumirMensagem, 5000)
     }
 
@@ -128,7 +124,6 @@
         resposta.text().then(texto => {
           console.error(texto);
           mensagem_erro.innerHTML = texto || "Erro ao fazer login. Verifique suas credenciais.";
-          finalizarAguardar();
         });
       }
 
@@ -136,7 +131,6 @@
       console.log(erro);
       cardErro.style.display = "block";
       mensagem_erro.innerHTML = "Erro de conexão com o servidor.";
-      finalizarAguardar();
     });
 
     return false;

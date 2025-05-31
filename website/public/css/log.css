@@ -10,14 +10,13 @@
 body, html {
   height: 100%;
   width: 100%;
-  overflow: hidden;
   background-color: #FFF;
 }
 
 .login {
   display: flex;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
 }
 
 .painel-esquerdo {
@@ -74,7 +73,7 @@ body, html {
 
 .campo label {
   font-size: 14px;
-  font-weight: 500px;
+  font-weight: 500;
   margin-bottom: 5px;
 }
 
@@ -86,7 +85,6 @@ body, html {
   font-size: 14px;
   width: 100%;
 }
-
 
 .botao {
   margin-top: 10px;

@@ -53,9 +53,7 @@
 
             <div class="campo">
               <label for="confirmacao_senha_input">Confirmação de senha</label>
-              <div class="campo-senha">
                 <input id="confirmacao_senha_input" type="password" placeholder="********" required />
-              </div>
             </div>
 
             <button type="submit" class="botao">Criar Conta</button>
@@ -64,7 +62,6 @@
           <div class="cadastro-link">
             Já possui uma conta? <a href="login.html">Login</a>
           </div>
-
         </div>
       </div>
     </div>
@@ -73,57 +70,42 @@
   </div>
 
 </body>
-
 </html>
-
-
 <script>
 
   function cadastrar() {
     event.preventDefault();
 
-    //Recupere o valor da nova input pelo nome do id
-    // Agora vá para o método fetch logo abaixo
     var nomeVar = nome_input.value;
     var emailVar = email_input.value;
     var senhaVar = senha_input.value;
     var confirmacaoSenhaVar = confirmacao_senha_input.value;
 
-    // Verificando se há algum campo em branco
     if (nomeVar == "" || emailVar == "" || senhaVar == "" || confirmacaoSenhaVar == "") {
       cardErro.style.display = "block";
       mensagem_erro.innerHTML = "Preencha todos os campos.";
       setTimeout(sumirMensagem, 5000);
-
-      finalizarAguardar();
       return false;
 
     } else if (nomeVar.length <= 2) {
       cardErro.style.display = "block";
       mensagem_erro.innerHTML = "Digite seu nome.";
       setTimeout(sumirMensagem, 5000);
-
-      finalizarAguardar();
       return false;
 
     } else if (senhaVar.length <= 6) {
       cardErro.style.display = "block";
       mensagem_erro.innerHTML = "Sua senha deve ter mais que 6 caracteres.";
       setTimeout(sumirMensagem, 5000);
-
-      finalizarAguardar();
       return false;
 
     } else if (senhaVar != confirmacaoSenhaVar) {
       cardErro.style.display = "block";
       mensagem_erro.innerHTML = "As senhas devem ser iguais.";
       setTimeout(sumirMensagem, 5000);
-
-      finalizarAguardar();
       return false;
     }
 
-    // Enviando o valor da nova input
     fetch("/users/cadastrar", {
       method: "POST",
       headers: {
@@ -140,7 +122,6 @@
 
         if (resposta.ok) {
           cardSucesso.style.display = "block";
-
           mensagem_sucesso.innerHTML =
             "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
@@ -149,14 +130,13 @@
           }, 5000);
 
           limparFormulario();
-          finalizarAguardar();
+
         } else {
           throw "Houve um erro ao tentar realizar o cadastro!";
         }
       })
       .catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);
-        finalizarAguardar();
       });
 
     return false;
