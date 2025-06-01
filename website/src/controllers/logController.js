@@ -7,17 +7,17 @@ function cadastrar(req, res) {
 
     if (!fkUser || !fkEmotion || !intensidade) {
         res.status(400).send("Selecione a emoção e a intensidade para continuar!");
-        return;
+        return; // 400 = bad request
     }
 
     logModel.cadastrar(fkUser, fkEmotion, intensidade)
         .then((resultado) => {
-            res.status(201).json(resultado);
+            res.status(201).json(resultado); // 201 = created
         })
         .catch((erro) => {
             console.log(erro);
             console.log("Houve um erro ao cadastrar o log: ", erro.sqlMessage);
-            res.status(500).json(erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage); // 500 = internal server error
         });
 }
 
@@ -26,9 +26,9 @@ function buscarLogsPorUser(req, res) {
 
     logModel.buscarLogsPorUser(idUser).then((resultado) => {
         if (resultado.length > 0) {
-            res.status(200).json(resultado);
+            res.status(200).json(resultado); // 200 = ok
         } else {
-            res.status(204).json([]);
+            res.status(204).json([]); // 204 = no content
         }
     }).catch(function (erro) {
         console.log(erro);

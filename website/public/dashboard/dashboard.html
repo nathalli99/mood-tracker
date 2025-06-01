@@ -118,6 +118,7 @@
             <form id="formEmotions" class="form-emotions">
                 <div class="emotions-selection">
                     <div id="emotionsButtons" class="emotions-buttons"></div>
+
                     <input type="hidden" id="selectedEmotion" name="emotion" required>
                 </div>
                 <div class="intensity-selection">
@@ -162,15 +163,17 @@
 </html>
 <script>
 
+    // NOME USUÁRIO
     let nome = sessionStorage.getItem("NOME_USUARIO");
     nome = nome[0].toUpperCase() + nome.slice(1);
     document.getElementById("b_usuario").innerHTML = nome;
     let idUser = sessionStorage.getItem("ID_USUARIO");
 
-
+    // VAR GRÁFICOS
     let graficoBarras;
     let graficoDonut;
 
+    // chama assim que a página carregar
     window.onload = () => {
         verificarRegistroDiario(idUser);
         carregarEmocoes();
@@ -179,6 +182,7 @@
         obterDadosGraficoDonut(idUser);
     };
 
+    // MODAL
     function mostrarModal() {
         const modal = document.getElementById("emotionModal");
         modal.showModal();
@@ -193,18 +197,18 @@
         const modal = document.getElementById("emotionModal");
         const form = document.getElementById("formEmotions");
 
-        // impede o envio do formulário e chama a função de registrar
+        // impede o envio do formulário e chama a função de registrar a emoção
         form.addEventListener("submit", function (e) {
             e.preventDefault();
             registrarEmocao();
         });
-        // bloqueia ESC diretamente no keydown
+        // bloqueia ESC diretamente no keydown para não fechar o modal
         modal.addEventListener("keydown", function (e) {
             if (e.key === "Escape") {
                 e.preventDefault();
             }
         });
-        // evita clique fora do modal
+        // bloqueia clique fora do modal
         modal.addEventListener("click", function (e) {
             if (!form.contains(e.target)) {
                 e.stopPropagation();
@@ -212,6 +216,7 @@
         });
     }
 
+    // EMOÇÕES
     function carregarEmocoes() {
         fetch("/emotions/listar")
             .then((res) => res.json())
@@ -246,7 +251,8 @@
             });
     }
 
-    // verificar registro diário, caso não tenha vai mostrar o modal para marcação
+    //VERIFICAÇÕES DE REGISTRO
+    // se não tiver registro 'hoje' vai mostrar o modal para marcação
     function verificarRegistroDiario() {
         fetch(`/logs/hoje/${idUser}`)
             .then((res) => {
@@ -291,6 +297,7 @@
             });
     }
 
+    // GRÁFICO DE BARRAS
     function obterDadosGraficoBarras(idUser) {
         fetch(`/logs/grafico-barras/${idUser}`)
             .then(res => res.json())
@@ -353,6 +360,7 @@
         obterDadosGraficoBarras(idUser);
     }
 
+    // GRÁFICO DONUT
     function obterDadosGraficoDonut(idUser) {
         fetch(`/logs/grafico-donut/${idUser}`)
             .then(res => res.json())
@@ -433,6 +441,7 @@
         obterDadosGraficoDonut(idUser);
     }
 
+    // ATUALIZAR AS KPIs de acordo com o registro
     function atualizarStats(dados) {
 
         const listaCores = {
@@ -476,6 +485,7 @@
         document.documentElement.style.setProperty('--cor-menos', corMenos);
     }
 
+    // sair
     function limparSessao() {
         sessionStorage.clear();
         window.location = '../login.html';
