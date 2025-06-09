@@ -95,6 +95,27 @@ INSERT INTO log (fkUser, fkEmotion, intensidade, dtRegistro) VALUES
 (1, 2, 5, '2025-05-19 15:30:00'),
 (1, 7, 3, '2025-05-20 19:30:00');
 
+INSERT INTO log (fkUser, fkEmotion, intensidade, dtRegistro) VALUES
+(1, 1, 5, '2025-05-21 09:05:00'),
+(1, 2, 5, '2025-05-22 11:10:00'),
+(1, 4, 4, '2025-05-23 12:00:00'),
+(1, 5, 2, '2025-05-24 13:15:00'),
+(1, 6, 3, '2025-05-25 14:10:00'),
+(1, 2, 5, '2025-05-26 15:30:00'),
+(1, 6, 3, '2025-05-27 14:10:00'),
+(1, 2, 5, '2025-05-28 19:50:00'),
+(1, 2, 5, '2025-05-29 17:20:00'),
+(1, 2, 5, '2025-05-30 12:30:00');
+
+INSERT INTO log (fkUser, fkEmotion, intensidade, dtRegistro) VALUES
+(1, 5, 5, '2025-05-31 09:05:00'),
+(1, 5, 1, '2025-06-01 22:10:00'),
+(1, 5, 3, '2025-06-02 23:10:00'),
+(1, 5, 5, '2025-06-03 11:10:00'),
+(1, 5, 4, '2025-06-04 12:00:00'),
+(1, 5, 2, '2025-06-05 23:10:00'),
+(1, 5, 5, '2025-06-06 11:10:00');
+
 SHOW TABLES;
 
 SELECT * FROM users;
@@ -105,7 +126,7 @@ SELECT * FROM log;
 SELECT idUser, nome, email
 FROM users
 WHERE email = 'nathalli@email.com'
-    AND senha = 'stefanie';
+        AND senha = 'stefanie';
 
 -- function buscarLogsPorEmotion(idEmotion) 
 SELECT * FROM log WHERE fkEmotion = 1; -- dinamico na api
@@ -162,12 +183,4 @@ ON l.fkUser = u.idUser
 JOIN emotion AS e
 ON l.fkEmotion = e.idEmotion;
 
--- caso queira filtrar por mês/ano para cada usuário
-SELECT e.nome AS emocao,
-    COUNT(*) AS total
-FROM log l
-JOIN emotion e ON l.fkEmotion = e.idEmotion
-WHERE l.fkUser = 1
-  AND MONTH(l.dtRegistro) = MONTH(NOW())
-  AND YEAR(l.dtRegistro) = YEAR(NOW())
-GROUP BY e.nome;
+

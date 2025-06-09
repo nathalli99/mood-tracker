@@ -93,7 +93,12 @@
       setTimeout(sumirMensagem, 5000);
       return false;
 
-    } else if (senhaVar.length <= 6) {
+    } else if (!emailVar.includes('@') || !emailVar.includes('.')) {
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML = "Por favor, insira um e-mail válido!";
+      return false;
+    }
+     else if (senhaVar.length <= 6) {
       cardErro.style.display = "block";
       mensagem_erro.innerHTML = "Sua senha deve ter mais que 6 caracteres.";
       setTimeout(sumirMensagem, 5000);
